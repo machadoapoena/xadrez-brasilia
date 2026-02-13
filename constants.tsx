@@ -4,7 +4,6 @@ import React from 'react';
 // --- Date Utils ---
 export const NOW = new Date();
 export const TODAY_DAY = NOW.getDate();
-// Fix: Use .getMonth() instead of .MONTH which is undefined on Date objects
 export const TODAY_MONTH = NOW.getMonth();
 export const TODAY_YEAR = NOW.getFullYear();
 
@@ -34,7 +33,9 @@ export interface Tournament {
 export interface Partner {
   id: number;
   name: string;
+  role: string;
   contact: string;
+  instagram?: string;
   image: string;
   description: string;
 }
@@ -123,23 +124,29 @@ export const TOURNAMENTS: Tournament[] = ([
 export const PARTNERS: Partner[] = [
   {
     id: 1,
-    name: "Mearas",
+    name: "Mearas Escola",
+    role: "Escola de Xadrez",
     contact: "5561981684530",
+    instagram: "https://www.instagram.com/mearassports/",
     image: "https://fbx.org.br/wp-content/uploads/2019/12/Mearas-Escola-de-Xadrez-394x330.png",
-    description: "Organizadora do Festival Interescolar de Xadrez."
+    description: "Referência no DF, especializada em festivais interescolares e formação de base sólida."
   },
   {
     id: 2,
     name: "Xadrez do Valle",
+    role: "Centro de Treinamento",
     contact: "556183046464",
+    instagram: "https://www.instagram.com/xadrezvalle/",
     image: "https://xadrezvalle.com.br/wp-content/uploads/2022/12/Marca-XadrezValle-2024-251x95.png",
-    description: "Cursos presenciais ou online para todas as idades."
+    description: "Cursos presenciais e online focados em performance competitiva e estratégia avançada."
   },
   {
     id: 3,
     name: "Mister Chess",
+    role: "Instrutor Online",
     contact: "556182515940",
+    instagram: "https://www.instagram.com/nm.malcolm/",
     image: "https://imagens.xadrezbrasilia.com/imagens/logo_misterchess.png",
-    description: "Treinamento online especializado para crianças."
+    description: "Metodologia lúdica e interativa projetada para o desenvolvimento intelectual de crianças."
   }
 ];

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MessageCircle, GraduationCap } from 'lucide-react';
+import { Instagram, MessageCircle } from 'lucide-react';
 import { Partner } from './constants.tsx';
 
 export const PartnerCard = ({ partner }: { partner: Partner }) => {
@@ -10,10 +10,17 @@ export const PartnerCard = ({ partner }: { partner: Partner }) => {
     window.open(url, '_blank');
   };
 
+  const handleInstagram = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // Usa o instagram do parceiro se existir, senão usa o padrão do site
+    const url = partner.instagram || 'https://www.instagram.com/xadrezbrasiliaeventos/';
+    window.open(url, '_blank');
+  };
+
   return (
-    <div className="w-full max-w-[240px] h-[320px] relative group rounded-[28px] overflow-hidden shadow-lg bg-white border border-gray-100 transition-all hover:translate-y-[-6px] hover:shadow-2xl">
-      {/* Imagem de Fundo */}
-      <div className="absolute inset-0 bg-gray-200">
+    <div className="flex flex-col items-center w-full max-w-[280px] p-4 text-center group">
+      {/* Avatar Circular */}
+      <div className="w-40 h-40 rounded-full overflow-hidden mb-6 shadow-lg border-4 border-gray-100 transition-transform duration-500 group-hover:scale-105">
         <img 
           src={partner.image} 
           alt={partner.name} 
@@ -21,32 +28,38 @@ export const PartnerCard = ({ partner }: { partner: Partner }) => {
           loading="lazy"
         />
       </div>
-      
-      {/* Overlay de Gradiente */}
-      <div className="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/50 to-transparent opacity-95" />
-      
-      {/* Ícone de Categoria */}
-      <div className="absolute top-4 right-4 z-10">
-        <div className="bg-yellow-400 p-2 rounded-xl shadow-lg border border-white/20">
-          <GraduationCap className="text-blue-900" size={16} />
-        </div>
-      </div>
 
-      {/* Conteúdo do Card */}
-      <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
-        <h3 className="text-lg font-brand text-white mb-1.5 leading-tight uppercase tracking-tighter group-hover:text-yellow-400 transition-colors">
-          {partner.name}
-        </h3>
-        <p className="text-blue-100 text-[10px] font-medium mb-4 line-clamp-2 opacity-90">
-          {partner.description}
-        </p>
-        
-        <button 
-          onClick={handleWhatsApp}
-          className="w-full py-2.5 bg-yellow-400 text-blue-900 font-black rounded-xl text-[9px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-white transition-all transform active:scale-95 shadow-lg shadow-black/20"
+      {/* Rótulo / Cargo */}
+      <span className="text-[11px] font-medium text-gray-400 uppercase tracking-widest mb-1">
+        {partner.role}
+      </span>
+
+      {/* Nome */}
+      <h3 className="text-xl font-bold text-gray-900 mb-4 tracking-tight">
+        {partner.name}
+      </h3>
+
+      {/* Descrição */}
+      <p className="text-gray-500 text-xs leading-relaxed mb-6 px-2 line-clamp-3">
+        {partner.description}
+      </p>
+
+      {/* Ícones Sociais (Apenas Instagram e WhatsApp) */}
+      <div className="flex items-center gap-4">
+        <div 
+          onClick={handleInstagram}
+          className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 hover:bg-[#E1306C] hover:text-white transition-all cursor-pointer shadow-sm"
+          title="Instagram"
         >
-          <MessageCircle size={12} /> WhatsApp
-        </button>
+          <Instagram size={18} />
+        </div>
+        <div 
+          onClick={handleWhatsApp}
+          className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 hover:bg-green-600 hover:text-white transition-all cursor-pointer shadow-sm"
+          title="WhatsApp"
+        >
+          <MessageCircle size={18} />
+        </div>
       </div>
     </div>
   );
