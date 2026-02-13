@@ -124,7 +124,7 @@ export const TOURNAMENTS: Tournament[] = ([
 export const PARTNERS: Partner[] = [
   {
     id: 1,
-    name: "Mearas Escola",
+    name: "Mearas",
     role: "Escola de Xadrez",
     contact: "5561981684530",
     instagram: "https://www.instagram.com/mearassports/",
