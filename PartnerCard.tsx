@@ -19,12 +19,12 @@ export const PartnerCard = ({ partner }: { partner: Partner }) => {
 
   return (
     <div className="flex flex-col items-center w-full max-w-[280px] p-4 text-center group">
-      {/* Avatar Circular */}
-      <div className="w-40 h-40 rounded-full overflow-hidden mb-6 shadow-lg border-4 border-gray-100 transition-transform duration-500 group-hover:scale-105">
+      {/* Avatar Circular - Ajustado para visibilidade total (object-contain + padding) */}
+      <div className="w-44 h-44 rounded-full overflow-hidden mb-6 shadow-lg border-4 border-gray-100 bg-white transition-transform duration-500 group-hover:scale-105 flex items-center justify-center p-6">
         <img 
           src={partner.image} 
           alt={partner.name} 
-          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+          className="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-700"
           loading="lazy"
         />
       </div>
