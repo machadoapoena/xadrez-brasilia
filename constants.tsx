@@ -44,8 +44,10 @@ const createEventDate = (dateStr: string) => {
 export const LOGO_URL = "https://imagens.xadrezbrasilia.com/imagens/logo_xb.png";
 
 // --- Tournament Data ---
-// Agora você pode usar apenas a data no formato "DD/MM/YYYY" chamando ...createEventDate("XX/XX/XXXX")
-export const TOURNAMENTS: Tournament[] = [
+// A lista é exportada já ordenada por data para garantir consistência em toda a aplicação
+// Fix: Added explicit casting to Tournament[] on the array literal before sorting to prevent TypeScript 
+// from widening the 'type' property from TournamentType[] to string[].
+export const TOURNAMENTS: Tournament[] = ([
   { 
     id: 1, 
     name: "Capivárias", 
@@ -90,4 +92,8 @@ export const TOURNAMENTS: Tournament[] = [
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_circfbxrapid.JPG", 
     link: "https://gerenciador-circuito-xadrez.vercel.app/",
   }
-];
+] as Tournament[]).sort((a, b) => {
+  const dateA = new Date(a.year, a.monthIndex, a.day).getTime();
+  const dateB = new Date(b.year, b.monthIndex, b.day).getTime();
+  return dateA - dateB;
+});
