@@ -41,15 +41,23 @@ const App = () => {
 
   const displayedTournaments = useMemo(() => {
     if (selectedDay !== null) return filteredTournaments;
-    return [
-      TOURNAMENTS[currentIndex % TOURNAMENTS.length],
-      TOURNAMENTS[(currentIndex + 1) % TOURNAMENTS.length],
-      TOURNAMENTS[(currentIndex + 2) % TOURNAMENTS.length]
-    ];
+    // Agora usamos slice simples para garantir que pare no último item
+    return TOURNAMENTS.slice(currentIndex, currentIndex + 3);
   }, [currentIndex, selectedDay, filteredTournaments]);
 
+  const canGoBack = currentIndex > 0;
+  const canGoForward = selectedDay === null && (currentIndex + 3) < TOURNAMENTS.length;
+
   const nextMatches = () => {
-    setCurrentIndex(prev => prev + 3);
+    if (canGoForward) {
+      setCurrentIndex(prev => prev + 3);
+    }
+  };
+
+  const prevMatches = () => {
+    if (canGoBack) {
+      setCurrentIndex(prev => Math.max(0, prev - 3));
+    }
   };
 
   const handleDayClick = (day: number, monthIndex: number = TODAY_MONTH) => {
@@ -65,6 +73,7 @@ const App = () => {
   const clearFilter = () => {
     setSelectedDay(null);
     setSelectedMonthIndex(null);
+    setCurrentIndex(0); // Volta para o início ao limpar filtro
   };
 
   return (
@@ -142,16 +151,27 @@ const App = () => {
 
           {selectedDay === null && TOURNAMENTS.length > 3 && (
             <div className="mt-16 flex items-center gap-6">
-              <button onClick={() => setCurrentIndex(p => Math.max(0, p - 3))} className="p-4 bg-white border border-gray-100 rounded-full shadow-lg hover:text-green-600 transition-all active:scale-95">
+              <button 
+                onClick={prevMatches} 
+                disabled={!canGoBack}
+                className={`p-4 bg-white border border-gray-100 rounded-full shadow-lg transition-all active:scale-95 ${canGoBack ? 'hover:text-green-600 cursor-pointer' : 'opacity-30 cursor-not-allowed'}`}
+              >
                 <ChevronLeft size={24} />
               </button>
+              
               <button 
                 onClick={nextMatches}
-                className="bg-blue-900 text-white px-10 py-4 rounded-[20px] font-black shadow-2xl hover:shadow-blue-900/40 transition-all transform hover:translate-y-[-2px] active:scale-95 flex items-center gap-4 text-xs uppercase tracking-[0.2em]"
+                disabled={!canGoForward}
+                className={`bg-blue-900 text-white px-10 py-4 rounded-[20px] font-black shadow-2xl transition-all transform flex items-center gap-4 text-xs uppercase tracking-[0.2em] ${canGoForward ? 'hover:shadow-blue-900/40 hover:translate-y-[-2px] active:scale-95 cursor-pointer' : 'opacity-50 cursor-not-allowed'}`}
               >
-                MAIS TORNEIOS <ChevronRight size={16} />
+                {canGoForward ? 'MAIS TORNEIOS' : 'FIM DA LISTA'} <ChevronRight size={16} />
               </button>
-              <button onClick={() => setCurrentIndex(p => p + 3)} className="p-4 bg-white border border-gray-100 rounded-full shadow-lg hover:text-green-600 transition-all active:scale-95">
+
+              <button 
+                onClick={nextMatches} 
+                disabled={!canGoForward}
+                className={`p-4 bg-white border border-gray-100 rounded-full shadow-lg transition-all active:scale-95 ${canGoForward ? 'hover:text-green-600 cursor-pointer' : 'opacity-30 cursor-not-allowed'}`}
+              >
                 <ChevronRight size={24} />
               </button>
             </div>
@@ -272,6 +292,15 @@ const App = () => {
         .hide-scrollbar {
           -ms-overflow-style: none;
           scrollbar-width: none;
+        }
+        /* Correção para Bug de Overflow em Bordas Arredondadas com Transformação */
+        .force-gpu-clip {
+          mask-image: -webkit-radial-gradient(white, black);
+          -webkit-mask-image: -webkit-radial-gradient(white, black);
+          transform: translateZ(0);
+          -webkit-transform: translateZ(0);
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
         }
       `}</style>
     </div>

@@ -6,8 +6,8 @@ import { getBadgeStyles } from './utils.tsx';
 
 export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
   return (
-    <div className="relative group w-full max-w-[320px] h-[400px] rounded-[32px] overflow-hidden shadow-2xl bg-white border-4 border-yellow-400 transform transition-all duration-500 hover:scale-[1.02] hover:shadow-yellow-400/20">
-      <img src={tournament.image} alt={tournament.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+    <div className="relative group w-full max-w-[320px] h-[400px] rounded-[32px] overflow-hidden shadow-2xl bg-white border-4 border-yellow-400 transform transition-all duration-500 hover:scale-[1.02] hover:shadow-yellow-400/20 isolate transform-gpu force-gpu-clip">
+      <img src={tournament.image} alt={tournament.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 backface-hidden" />
       <div className="absolute inset-0 bg-gradient-to-t from-blue-900/95 via-blue-900/40 to-transparent" />
       
       <div className="absolute top-4 left-4 flex flex-col items-center">
@@ -65,7 +65,7 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
             </a>
           ) : (
             <div className="w-full py-2 bg-gray-300 text-gray-500 font-black rounded-xl text-[9px] uppercase tracking-[0.1em] flex items-center justify-center gap-2 cursor-not-allowed opacity-80">
-              <ExternalLink size={11} className="opacity-40" /> Inscrição Fechada
+              <ExternalLink size={11} className="opacity-40" /> Inscrição Em Breve
             </div>
           )}
         </div>

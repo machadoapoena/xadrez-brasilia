@@ -9,7 +9,8 @@ export const ContactForm = () => {
 
   const sendWhatsApp = (e: React.FormEvent) => {
     e.preventDefault();
-    const phone = "5561999999999"; 
+    // Número atualizado conforme solicitação do usuário: 61 981222312 (com DDI 55)
+    const phone = "5561981222312"; 
     const fullMessage = `Olá! Meu nome é ${name} (${email}).\n\nDúvida sobre Torneios: ${message}`;
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(fullMessage)}`;
     window.open(url, '_blank');
