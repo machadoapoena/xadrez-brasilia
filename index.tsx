@@ -26,6 +26,7 @@ import { TournamentCard } from './TournamentCard.tsx';
 import { Timeline } from './Timeline.tsx';
 import { CalendarModal } from './CalendarModal.tsx';
 import { SocialSection } from './SocialSection.tsx';
+import { PartnerSection } from './PartnerSection.tsx';
 import { ContactForm } from './ContactForm.tsx';
 
 const App = () => {
@@ -225,6 +226,9 @@ const App = () => {
       </section>
 
       <SocialSection />
+      
+      <PartnerSection />
+
       <ContactForm />
 
       <footer className="bg-white py-20 px-8 border-t border-gray-100">

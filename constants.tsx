@@ -31,6 +31,14 @@ export interface Tournament {
   chessResultsLink?: string;
 }
 
+export interface Partner {
+  id: number;
+  name: string;
+  contact: string;
+  image: string;
+  description: string;
+}
+
 // Helper to handle DD/MM/YYYY dates
 const createEventDate = (dateStr: string) => {
   const [d, m, y] = dateStr.split('/').map(Number);
@@ -46,7 +54,6 @@ const createEventDate = (dateStr: string) => {
 export const LOGO_URL = "https://imagens.xadrezbrasilia.com/imagens/logo_xb.png";
 
 // --- Tournament Data ---
-// A lista é exportada já ordenada por data para garantir consistência em toda a aplicação
 export const TOURNAMENTS: Tournament[] = ([
   { 
     id: 1, 
@@ -111,3 +118,28 @@ export const TOURNAMENTS: Tournament[] = ([
   const dateB = new Date(b.year, b.monthIndex, b.day).getTime();
   return dateA - dateB;
 });
+
+// --- Partners Data (Schools & Teachers) ---
+export const PARTNERS: Partner[] = [
+  {
+    id: 1,
+    name: "Mearas",
+    contact: "5561981684530",
+    image: "https://fbx.org.br/wp-content/uploads/2019/12/Mearas-Escola-de-Xadrez-394x330.png",
+    description: "Organizadora do Festival Interescolar de Xadrez."
+  },
+  {
+    id: 2,
+    name: "Xadrez do Valle",
+    contact: "556183046464",
+    image: "https://xadrezvalle.com.br/wp-content/uploads/2022/12/Marca-XadrezValle-2024-251x95.png",
+    description: "Cursos presenciais ou online para todas as idades."
+  },
+  {
+    id: 3,
+    name: "Mister Chess",
+    contact: "556182515940",
+    image: "https://imagens.xadrezbrasilia.com/imagens/logo_misterchess.png",
+    description: "Treinamento online especializado para crianças."
+  }
+];
