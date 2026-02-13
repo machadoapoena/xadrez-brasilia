@@ -85,7 +85,10 @@ const App = () => {
           <div className="h-12 w-12 overflow-hidden flex items-center justify-center transform group-hover:rotate-12 transition-transform">
             <img src={LOGO_URL} alt="Logo Xadrez Brasília" className="h-full w-full object-contain" />
           </div>
-          <span className="text-4xl font-signature text-black leading-none">Xadrez Brasília</span>
+          <div className="flex items-baseline gap-1">
+            <span className="text-2xl font-arial-black text-black leading-none tracking-tighter">XADREZ</span>
+            <span className="text-4xl font-signature text-black leading-none">Brasília</span>
+          </div>
         </div>
         <div className="hidden lg:flex gap-10 font-bold text-gray-500 uppercase text-xs tracking-widest">
           <a href="#match" className="hover:text-green-600 transition-colors border-b-2 border-transparent hover:border-yellow-400 pb-1">Encontrar</a>
@@ -280,7 +283,10 @@ const App = () => {
               <div className="h-14 w-14 overflow-hidden">
                 <img src={LOGO_URL} alt="Logo Xadrez Brasília" className="w-full h-full object-contain" />
               </div>
-              <span className="text-5xl font-signature text-black leading-none">Xadrez Brasília</span>
+              <div className="flex items-baseline gap-1">
+                <span className="text-3xl font-arial-black text-black leading-none tracking-tighter">XADREZ</span>
+                <span className="text-5xl font-signature text-black leading-none">Brasília</span>
+              </div>
             </div>
             <div className="flex flex-wrap justify-center gap-10 font-bold text-gray-400 text-sm tracking-widest uppercase">
               <a href="#match" className="hover:text-blue-900 transition-colors">Torneios</a>
