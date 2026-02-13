@@ -36,7 +36,7 @@ export const LOGO_URL = "https://imagens.xadrezbrasilia.com/imagens/logo_xb.png"
 export const TOURNAMENTS: Tournament[] = [
   { 
     id: 1, 
-    name: "Festival Internacional de Brasília", 
+    name: "Festivall Internacional de Brasília", 
     day: TODAY_DAY + 2, 
     month: MONTH_NAMES_SHORT[TODAY_MONTH], 
     monthIndex: TODAY_MONTH, 
