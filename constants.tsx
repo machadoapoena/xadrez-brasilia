@@ -55,8 +55,7 @@ export const TOURNAMENTS: Tournament[] = [
     type: ["Rápido"], 
     prize: "Troféus e Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_capivarias.JPG", 
-    link: "https://mearas.com.br/capivarias/",
-    registrationLink: "https://mearas.com.br/capivarias/"
+    link: "https://mearas.com.br/capivarias/"
   },
   { 
     id: 2, 
