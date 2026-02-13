@@ -92,6 +92,19 @@ export const TOURNAMENTS: Tournament[] = ([
     prize: "R$ 630,00 e Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_circfbxrapid.JPG", 
     link: "https://gerenciador-circuito-xadrez.vercel.app/",
+  },
+  { 
+    id: 5, 
+    name: "I Torneio de Xadrez FUP 2026", 
+    ...createEventDate("07/03/2026"),
+    time: "15:00", 
+    location: "UNB Planaltina (Brasília, DF)", 
+    type: ["Rápido"], 
+    prize: "Troféus e Medalhas", 
+    image: "https://imagens.xadrezbrasilia.com/imagens/tr_fup.jpg", 
+    link: "https://docs.google.com/forms/d/e/1FAIpQLScW4XFy2V5rTj_KOklL-DViMU1_71KSpupptzruRDT107SOJg/viewform",
+    registrationLink: "https://docs.google.com/forms/d/e/1FAIpQLScW4XFy2V5rTj_KOklL-DViMU1_71KSpupptzruRDT107SOJg/viewform",
+    chessResultsLink: "https://s3.chess-results.com/tnr1336608.aspx?lan=10&turdet=YES&SNode=S0"
   }
 ] as Tournament[]).sort((a, b) => {
   const dateA = new Date(a.year, a.monthIndex, a.day).getTime();
