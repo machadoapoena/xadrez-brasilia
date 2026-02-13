@@ -147,6 +147,6 @@ export const PARTNERS: Partner[] = [
     contact: "556182515940",
     instagram: "https://www.instagram.com/nm.malcolm/",
     image: "https://imagens.xadrezbrasilia.com/imagens/logo_misterchess.png",
-    description: "Metodologia lúdica e interativa projetada para o desenvolvimento intelectual de crianças."
+    description: "Treinamento online focados em performance competitiva e estratégia avançada."
   }
 ];
