@@ -156,7 +156,7 @@ export const PARTNERS: Partner[] = [
     contact: "556181167386",
     instagram: "https://www.instagram.com/cidxadreztag/",
     image: "https://imagens.xadrezbrasilia.com/imagens/logo_cid.png",
-    description: "Aulas presenciais no CED 02 de Taguatinga- Centrão. As segundas, quartas e sextas. Gratuito. Horários 7h30, 8h30, 9h30 pela manhã,  14h30, 15h30 e 16h30 à tarde."
+    description: "Aulas presenciais no CED 02 de Taguatinga- Centrão. As segundas, quartas e sextas. Gratuito. Horários 7h30, 8h30, 9h30 pela manhã, 14h30, 15h30 e 16h30 à tarde."
   },
   {
     id: 5,
@@ -166,5 +166,14 @@ export const PARTNERS: Partner[] = [
     instagram: "https://www.instagram.com/liraluigy/",
     image: "https://imagens.xadrezbrasilia.com/imagens/pf_luigy.png",
     description: "Aulas personalizadas para todas as idades. Do iniciante ao avançado."
+  },
+  {
+    id: 6,
+    name: "Alexandre Bernardo",
+    role: "Instrutor",
+    contact: "5561982093023",
+    instagram: "https://www.youtube.com/@tioalexadrez",
+    image: "https://imagens.xadrezbrasilia.com/imagens/pf_alexbarb.png",
+    description: "Professor de Xadrez para crianças (básico ao avançado) e escritor de livros infantis para o ensino de Xadrez (A Jornada do Peão e Capivarada pela Editora Acolibri)."
   }
 ];

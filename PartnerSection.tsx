@@ -8,10 +8,10 @@ export const PartnerSection = () => {
     const list = Array.isArray(PARTNERS) ? [...PARTNERS] : [];
     if (list.length === 0) return [];
     
-    // Seleciona 3 parceiros aleatoriamente para justificar a mensagem de lista rotativa
+    // Seleciona 4 parceiros aleatoriamente conforme solicitado anteriormente
     return list
       .sort(() => Math.random() - 0.5)
-      .slice(0, 3);
+      .slice(0, 4);
   }, []);
 
   return (
@@ -29,13 +29,14 @@ export const PartnerSection = () => {
           </p>
         </header>
 
-        <div className="flex flex-wrap justify-center gap-12 lg:gap-20 items-start min-h-[300px]">
+        {/* Layout de Grid para garantir alinhamento em linha no desktop */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 justify-items-center items-start min-h-[300px]">
           {randomPartners.length > 0 ? (
             randomPartners.map((partner) => (
               <PartnerCard key={partner.id} partner={partner} />
             ))
           ) : (
-            <div className="text-gray-400 font-medium italic">
+            <div className="col-span-full text-gray-400 font-medium italic py-10">
               Nenhum parceiro encontrado.
             </div>
           )}

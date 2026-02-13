@@ -3,7 +3,8 @@ import React from 'react';
 import { Instagram, MessageCircle } from 'lucide-react';
 import { Partner } from './constants.tsx';
 
-export const PartnerCard = ({ partner }: { partner: Partner }) => {
+// Explicitly typed as React.FC to ensure that the 'key' prop is recognized by TypeScript when the component is used in a map.
+export const PartnerCard: React.FC<{ partner: Partner }> = ({ partner }) => {
   const handleWhatsApp = (e: React.MouseEvent) => {
     e.stopPropagation();
     const url = `https://wa.me/${partner.contact}?text=Olá! Encontrei seu contato no site Xadrez Brasília e gostaria de informações sobre aulas de xadrez.`;
