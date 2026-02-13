@@ -85,7 +85,7 @@ export const TOURNAMENTS: Tournament[] = ([
     location: "Plaza Norte (Brasília, DF)", 
     type: ["Rápido"], 
     prize: "Troféus e Medalhas", 
-    image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxabertoplaza.JPG", 
+    image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxabertoplaza.png", 
     link: "https://xadrezdf.com.br/",
     registrationLink: "https://xadrezdf.com.br/",
     chessResultsLink: "https://s2.chess-results.com/tnr1347185.aspx?lan=10"
@@ -98,7 +98,7 @@ export const TOURNAMENTS: Tournament[] = ([
     location: "Clube ASTCU (Brasília, DF)", 
     type: ["Rápido"], 
     prize: "R$ 630,00 e Medalhas", 
-    image: "https://imagens.xadrezbrasilia.com/imagens/tr_circfbxrapid.JPG", 
+    image: "https://imagens.xadrezbrasilia.com/imagens/tr_circfbxrapid.png", 
     link: "https://gerenciador-circuito-xadrez.vercel.app/",
   },
   { 
