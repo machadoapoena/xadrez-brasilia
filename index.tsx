@@ -11,7 +11,8 @@ import {
   ChevronRight,
   ChevronLeft,
   Trophy,
-  MapPin
+  MapPin,
+  CalendarDays
 } from 'lucide-react';
 
 import {
@@ -34,6 +35,7 @@ const App = () => {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [selectedMonthIndex, setSelectedMonthIndex] = useState<number | null>(null);
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
+  const [isGoogleCalendarModalOpen, setIsGoogleCalendarModalOpen] = useState(false);
 
   const filteredTournaments = useMemo(() => {
     if (selectedDay === null) return TOURNAMENTS;
@@ -42,7 +44,6 @@ const App = () => {
 
   const displayedTournaments = useMemo(() => {
     if (selectedDay !== null) return filteredTournaments;
-    // Agora usamos slice simples para garantir que pare no último item
     return TOURNAMENTS.slice(currentIndex, currentIndex + 3);
   }, [currentIndex, selectedDay, filteredTournaments]);
 
@@ -74,7 +75,7 @@ const App = () => {
   const clearFilter = () => {
     setSelectedDay(null);
     setSelectedMonthIndex(null);
-    setCurrentIndex(0); // Volta para o início ao limpar filtro
+    setCurrentIndex(0);
   };
 
   return (
@@ -124,9 +125,18 @@ const App = () => {
                 : <>Dê um <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-yellow-500">Checkmate</span> <br />no seu próximo desafio.</>
               }
             </h1>
-            <p className="text-lg text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed">
+            <p className="text-lg text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed mb-8">
               Explore o ecossistema brasiliense de xadrez: Torneios <strong>Blitz</strong> para agilidade, <strong>Rápidos</strong> para precisão e <strong>Pensados</strong> para mestres.
             </p>
+            
+            {!selectedDay && (
+              <button 
+                onClick={() => setIsGoogleCalendarModalOpen(true)}
+                className="inline-flex items-center gap-3 bg-green-600 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl hover:bg-green-700 transition-all transform hover:-translate-y-1 active:scale-95"
+              >
+                <CalendarDays size={18} /> Ver Agenda Completa
+              </button>
+            )}
           </header>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-stretch w-full min-h-[400px]">
@@ -198,6 +208,38 @@ const App = () => {
         onClose={() => setIsCalendarModalOpen(false)} 
         onDayClick={handleDayClick} 
       />
+
+      {/* Modal do Google Calendar */}
+      {isGoogleCalendarModalOpen && (
+        <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 md:p-8 animate-fade-in">
+          <div className="absolute inset-0 bg-blue-900/80 backdrop-blur-md" onClick={() => setIsGoogleCalendarModalOpen(false)} />
+          <div className="relative bg-white w-full max-w-6xl h-[90vh] rounded-[40px] shadow-2xl overflow-hidden flex flex-col animate-bounce-in">
+            <header className="p-6 border-b border-gray-100 flex justify-between items-center">
+              <div className="flex items-center gap-3 px-2">
+                <CalendarDays className="text-green-600" size={24} />
+                <h3 className="text-xl font-brand text-blue-900">Agenda Google - Xadrez Brasília</h3>
+              </div>
+              <button 
+                onClick={() => setIsGoogleCalendarModalOpen(false)}
+                className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:bg-red-500 hover:text-white transition-all shadow-sm"
+              >
+                <X size={20} />
+              </button>
+            </header>
+            <div className="flex-1 bg-gray-50 p-2 md:p-4">
+              <iframe 
+                src="https://calendar.google.com/calendar/embed?src=3bfda5669161adb461ff271edf8b4aa99887c3c32bda1231dff2cba925af1258%40group.calendar.google.com&ctz=America%2FSao_Paulo" 
+                style={{ border: 0 }} 
+                width="100%" 
+                height="100%" 
+                frameBorder="0" 
+                scrolling="no"
+                className="rounded-3xl shadow-inner bg-white"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      )}
 
       <section className="py-24 bg-white px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
@@ -297,7 +339,6 @@ const App = () => {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
-        /* Correção para Bug de Overflow em Bordas Arredondadas com Transformação */
         .force-gpu-clip {
           mask-image: -webkit-radial-gradient(white, black);
           -webkit-mask-image: -webkit-radial-gradient(white, black);
