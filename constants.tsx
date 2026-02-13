@@ -148,5 +148,14 @@ export const PARTNERS: Partner[] = [
     instagram: "https://www.instagram.com/nm.malcolm/",
     image: "https://imagens.xadrezbrasilia.com/imagens/logo_misterchess.png",
     description: "Treinamento online focados em performance competitiva e estratégia avançada."
+  },
+  {
+    id: 5,
+    name: "CID",
+    role: "Escola Presencial",
+    contact: "556181167386",
+    instagram: "https://www.instagram.com/cidxadreztag/",
+    image: "https://imagens.xadrezbrasilia.com/imagens/logo_cid.png",
+    description: "Aulas presenciais no CED 02 de Taguatinga- Centrão. As segundas, quartas e sextas. Gratuito. Horários 7h30, 8h30, 9h30 pela manhã,  14h30, 15h30 e 16h30 à tarde."
   }
 ];
