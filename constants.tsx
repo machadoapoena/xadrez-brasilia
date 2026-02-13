@@ -152,7 +152,7 @@ export const PARTNERS: Partner[] = [
   {
     id: 5,
     name: "CID",
-    role: "Escola Presencial",
+    role: "Escola de Xadrez",
     contact: "556181167386",
     instagram: "https://www.instagram.com/cidxadreztag/",
     image: "https://imagens.xadrezbrasilia.com/imagens/logo_cid.png",
