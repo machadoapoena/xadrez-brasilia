@@ -242,7 +242,7 @@ const App = () => {
             </div>
           </div>
           <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
-             <p className="text-gray-400 text-[11px] font-bold uppercase tracking-[0.2em]">© 2026 XADREZ BRASÍLIA EVENTOS. DESENVOLVIDO PARA A COMUNIDADE ENXADRISTA DO DF.</p>
+             <p className="text-gray-400 text-[11px] font-bold uppercase tracking-[0.2em]">© 2025 XADREZ BRASÍLIA EVENTOS. DESENVOLVIDO PARA A COMUNIDADE ENXADRISTA DO DF.</p>
              <div className="flex gap-8 text-[11px] font-bold text-gray-400 uppercase tracking-widest">
                 <a href="#" className="hover:text-blue-900">Termos</a>
                 <a href="#" className="hover:text-blue-900">Privacidade</a>
@@ -278,5 +278,8 @@ const App = () => {
   );
 };
 
-const root = createRoot(document.getElementById('root')!);
-root.render(<App />);
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = createRoot(rootElement);
+  root.render(<App />);
+}
