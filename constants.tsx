@@ -4,6 +4,7 @@ import React from 'react';
 // --- Date Utils ---
 export const NOW = new Date();
 export const TODAY_DAY = NOW.getDate();
+// Fix: Use .getMonth() instead of .MONTH which is undefined on Date objects
 export const TODAY_MONTH = NOW.getMonth();
 export const TODAY_YEAR = NOW.getFullYear();
 
@@ -27,6 +28,7 @@ export interface Tournament {
   image: string;
   link?: string;
   registrationLink?: string;
+  chessResultsLink?: string;
 }
 
 // Helper to handle DD/MM/YYYY dates
@@ -45,8 +47,6 @@ export const LOGO_URL = "https://imagens.xadrezbrasilia.com/imagens/logo_xb.png"
 
 // --- Tournament Data ---
 // A lista é exportada já ordenada por data para garantir consistência em toda a aplicação
-// Fix: Added explicit casting to Tournament[] on the array literal before sorting to prevent TypeScript 
-// from widening the 'type' property from TournamentType[] to string[].
 export const TOURNAMENTS: Tournament[] = ([
   { 
     id: 1, 
@@ -79,7 +79,8 @@ export const TOURNAMENTS: Tournament[] = ([
     prize: "Troféus e Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxabertoplaza.JPG", 
     link: "https://xadrezdf.com.br/",
-    registrationLink: "https://xadrezdf.com.br/"
+    registrationLink: "https://xadrezdf.com.br/",
+    chessResultsLink: "https://s2.chess-results.com/tnr1347185.aspx?lan=10"
   },
   { 
     id: 4, 
