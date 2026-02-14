@@ -12,7 +12,8 @@ import {
   ChevronLeft,
   Trophy,
   MapPin,
-  CalendarDays
+  CalendarDays,
+  PlusCircle
 } from 'lucide-react';
 
 import {
@@ -29,6 +30,7 @@ import { CalendarModal } from './CalendarModal.tsx';
 import { SocialSection } from './SocialSection.tsx';
 import { PartnerSection } from './PartnerSection.tsx';
 import { ContactForm } from './ContactForm.tsx';
+import { RegisterEventModal } from './RegisterEventModal.tsx';
 
 const App = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -36,6 +38,7 @@ const App = () => {
   const [selectedMonthIndex, setSelectedMonthIndex] = useState<number | null>(null);
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
   const [isGoogleCalendarModalOpen, setIsGoogleCalendarModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   const filteredTournaments = useMemo(() => {
     if (selectedDay === null) return TOURNAMENTS;
@@ -90,11 +93,18 @@ const App = () => {
             <span className="text-4xl font-signature text-black leading-none">Brasília</span>
           </div>
         </div>
-        <div className="hidden lg:flex gap-10 font-bold text-gray-500 uppercase text-xs tracking-widest">
+        <div className="hidden lg:flex gap-8 font-bold text-gray-500 uppercase text-xs tracking-widest items-center">
           <a href="#match" className="hover:text-green-600 transition-colors border-b-2 border-transparent hover:border-yellow-400 pb-1">Encontrar</a>
           <a href="#timeline" className="hover:text-green-600 transition-colors border-b-2 border-transparent hover:border-yellow-400 pb-1">Calendário</a>
           <a href="#social" className="hover:text-green-600 transition-colors border-b-2 border-transparent hover:border-yellow-400 pb-1">Comunidade</a>
           <a href="#contact" className="hover:text-green-600 transition-colors border-b-2 border-transparent hover:border-yellow-400 pb-1">Suporte</a>
+          <button 
+            onClick={() => setIsRegisterModalOpen(true)}
+            className="bg-blue-900 text-white px-5 py-2.5 rounded-xl flex items-center gap-2 hover:bg-green-600 transition-all shadow-md group/btn"
+          >
+            <PlusCircle size={16} className="group-hover/btn:rotate-90 transition-transform" />
+            CADASTRAR
+          </button>
         </div>
         <div className="w-12 h-12 flex items-center justify-center lg:hidden">
           <ChevronDown size={24} className="text-blue-900" />
@@ -243,6 +253,12 @@ const App = () => {
           </div>
         </div>
       )}
+
+      {/* Modal de Cadastro de Evento */}
+      <RegisterEventModal 
+        isOpen={isRegisterModalOpen} 
+        onClose={() => setIsRegisterModalOpen(false)} 
+      />
 
       <section className="py-24 bg-white px-6">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-8">
