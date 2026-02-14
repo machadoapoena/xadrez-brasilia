@@ -106,7 +106,7 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
                 <img 
                   src={qrCodeUrl} 
                   alt={`QR Code para ${tournament.name}`} 
-                  className="w-28 h-28 object-contain"
+                  className="w-24 h-24 object-contain"
                   loading="lazy"
                 />
                 <div className="absolute -bottom-2 -right-2 bg-green-600 text-white p-1.5 rounded-full shadow-lg border-2 border-white">
@@ -114,8 +114,8 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
                 </div>
               </div>
             ) : (
-              <div className="w-28 h-28 bg-white/5 rounded-3xl flex items-center justify-center border border-white/10 transition-colors">
-                <BarChart2 size={48} className="text-white/20" />
+              <div className="w-24 h-24 bg-white/5 rounded-3xl flex items-center justify-center border border-white/10 transition-colors">
+                <BarChart2 size={40} className="text-white/20" />
               </div>
             )}
           </div>
