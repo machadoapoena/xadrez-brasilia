@@ -1,25 +1,51 @@
 
 import React, { useState } from 'react';
 import { Trophy, MapPin, Clock, ExternalLink, RotateCcw, BarChart2 } from 'lucide-react';
+import QRCode from 'qrcode';
 import { Tournament } from './constants.tsx';
 import { getBadgeStyles } from './utils.tsx';
 
 export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  // Função JavaScript que gera o QR Code localmente
+  const generateQRCode = async () => {
+    if (!tournament.chessResultsLink || qrCodeDataUrl || isGenerating) return;
+    
+    setIsGenerating(true);
+    try {
+      // Gera o QR Code como um Data URL (imagem base64) localmente
+      const url = await QRCode.toDataURL(tournament.chessResultsLink, {
+        width: 300,
+        margin: 2,
+        color: {
+          dark: '#000000',
+          light: '#ffffff'
+        }
+      });
+      setQrCodeDataUrl(url);
+    } catch (err) {
+      console.error("Erro ao gerar QR Code:", err);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   const handleFlip = () => {
-    setIsFlipped(!isFlipped);
+    const nextState = !isFlipped;
+    setIsFlipped(nextState);
+    
+    // Dispara a geração apenas se estiver virando para o verso e o link existir
+    if (nextState && !qrCodeDataUrl) {
+      generateQRCode();
+    }
   };
 
   const handleButtonClick = (e: React.MouseEvent) => {
-    // Evita que o clique no botão dispare o flip do card pai
     e.stopPropagation();
   };
-
-  // URL para geração dinâmica do QR Code via API pública
-  const qrCodeUrl = tournament.chessResultsLink 
-    ? `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(tournament.chessResultsLink)}&bgcolor=ffffff&color=000000&margin=10`
-    : null;
 
   return (
     <div 
@@ -101,13 +127,12 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
         <div className="absolute inset-0 backface-hidden rotate-y-180 flex flex-col rounded-[32px] overflow-hidden shadow-2xl bg-blue-900 border-4 border-green-600 p-8 text-center justify-center items-center">
           
           <div className="mb-6 relative">
-            {qrCodeUrl ? (
+            {qrCodeDataUrl ? (
               <div className="p-3 bg-white rounded-3xl shadow-2xl border-2 border-green-600/30">
                 <img 
-                  src={qrCodeUrl} 
+                  src={qrCodeDataUrl} 
                   alt={`QR Code para ${tournament.name}`} 
                   className="w-24 h-24 object-contain"
-                  loading="lazy"
                 />
                 <div className="absolute -bottom-2 -right-2 bg-green-600 text-white p-1.5 rounded-full shadow-lg border-2 border-white">
                   <ExternalLink size={12} />
@@ -115,14 +140,18 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
               </div>
             ) : (
               <div className="w-24 h-24 bg-white/5 rounded-3xl flex items-center justify-center border border-white/10 transition-colors">
-                <BarChart2 size={40} className="text-white/20" />
+                {isGenerating ? (
+                   <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                ) : (
+                  <BarChart2 size={40} className="text-white/20" />
+                )}
               </div>
             )}
           </div>
           
           <h3 className="text-xl font-brand text-white mb-2 uppercase tracking-tight">{tournament.name}</h3>
           <p className="text-blue-200 text-[10px] font-bold uppercase tracking-widest mb-8">
-            {qrCodeUrl ? 'Aponte a câmera para os resultados' : 'Informações Técnicas & Resultados'}
+            {qrCodeDataUrl ? 'Aponte a câmera para os resultados' : 'Informações Técnicas & Resultados'}
           </p>
 
           <div className="w-full space-y-3">
