@@ -122,7 +122,8 @@ export const TOURNAMENTS: Tournament[] = ([
     location: "Rua CIOPS Lunabel (Novo Gama/GO)", 
     type: ["Blitz"], 
     prize: "Medalhas", 
-    image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxcarnablitz.JPG", 
+    image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxcarnablitz.JPG",
+    chessResultsLink: "https://s2.chess-results.com/tnr1353358.aspx?lan=10&SNode=S0"
   }
 ] as Tournament[]).sort((a, b) => {
   const dateA = new Date(a.year, a.monthIndex, a.day).getTime();
