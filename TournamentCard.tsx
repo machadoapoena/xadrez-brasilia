@@ -16,6 +16,11 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
     e.stopPropagation();
   };
 
+  // URL para geração dinâmica do QR Code via API pública
+  const qrCodeUrl = tournament.chessResultsLink 
+    ? `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(tournament.chessResultsLink)}&bgcolor=ffffff&color=000000&margin=10`
+    : null;
+
   return (
     <div 
       className="w-full max-w-[320px] h-[400px] perspective-1000 cursor-pointer group"
@@ -94,12 +99,31 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
 
         {/* Lado de Trás */}
         <div className="absolute inset-0 backface-hidden rotate-y-180 flex flex-col rounded-[32px] overflow-hidden shadow-2xl bg-blue-900 border-4 border-green-600 p-8 text-center justify-center items-center">
-          <div className="w-20 h-20 bg-green-600/20 rounded-full flex items-center justify-center mb-6 border border-green-600/30">
-            <BarChart2 size={40} className="text-green-500" />
+          
+          <div className="mb-6 relative">
+            {qrCodeUrl ? (
+              <div className="p-3 bg-white rounded-3xl shadow-2xl border-2 border-green-600/30 transform transition-transform duration-500 group-hover:scale-110">
+                <img 
+                  src={qrCodeUrl} 
+                  alt={`QR Code para ${tournament.name}`} 
+                  className="w-28 h-28 object-contain"
+                  loading="lazy"
+                />
+                <div className="absolute -bottom-2 -right-2 bg-green-600 text-white p-1.5 rounded-full shadow-lg border-2 border-white">
+                  <ExternalLink size={12} />
+                </div>
+              </div>
+            ) : (
+              <div className="w-28 h-28 bg-white/5 rounded-3xl flex items-center justify-center border border-white/10 group-hover:bg-white/10 transition-colors">
+                <BarChart2 size={48} className="text-white/20" />
+              </div>
+            )}
           </div>
           
           <h3 className="text-xl font-brand text-white mb-2 uppercase tracking-tight">{tournament.name}</h3>
-          <p className="text-blue-200 text-xs font-medium mb-8">Informações Técnicas & Resultados</p>
+          <p className="text-blue-200 text-[10px] font-bold uppercase tracking-widest mb-8">
+            {qrCodeUrl ? 'Aponte a câmera para os resultados' : 'Informações Técnicas & Resultados'}
+          </p>
 
           <div className="w-full space-y-3">
             {tournament.chessResultsLink ? (
@@ -110,7 +134,7 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
                 onClick={handleButtonClick}
                 className="w-full py-4 bg-green-600 text-white font-black rounded-2xl text-[10px] uppercase tracking-[0.2em] hover:bg-green-500 transition-all flex items-center justify-center gap-3 shadow-xl"
               >
-                <BarChart2 size={16} /> Ver Chess-Results
+                <BarChart2 size={16} /> Abrir Chess-Results
               </a>
             ) : (
               <div className="w-full py-4 bg-white/5 border border-white/10 text-white/40 font-black rounded-2xl text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-3">
