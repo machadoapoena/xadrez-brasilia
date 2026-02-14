@@ -8,6 +8,7 @@ import {
   Instagram,
   Youtube,
   X,
+  Menu,
   ChevronRight,
   ChevronLeft,
   Trophy,
@@ -39,6 +40,7 @@ const App = () => {
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
   const [isGoogleCalendarModalOpen, setIsGoogleCalendarModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const filteredTournaments = useMemo(() => {
     if (selectedDay === null) return TOURNAMENTS;
@@ -81,18 +83,23 @@ const App = () => {
     setCurrentIndex(0);
   };
 
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
   return (
     <div className="min-h-screen selection:bg-yellow-400 selection:text-blue-900">
-      <nav className="fixed top-0 left-0 right-0 z-[100] bg-white/90 backdrop-blur-xl border-b border-gray-100 py-5 px-8 flex justify-between items-center shadow-sm">
-        <div className="flex items-center gap-4 group cursor-pointer" onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>
-          <div className="h-12 w-12 overflow-hidden flex items-center justify-center transform group-hover:rotate-12 transition-transform">
+      <nav className="fixed top-0 left-0 right-0 z-[150] bg-white/90 backdrop-blur-xl border-b border-gray-100 py-4 md:py-5 px-6 md:px-8 flex justify-between items-center shadow-sm">
+        <div className="flex items-center gap-3 md:gap-4 group cursor-pointer" onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>
+          <div className="h-10 w-10 md:h-12 md:w-12 overflow-hidden flex items-center justify-center transform group-hover:rotate-12 transition-transform">
             <img src={LOGO_URL} alt="Logo Xadrez Brasília" className="h-full w-full object-contain" />
           </div>
           <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-arial-black text-black leading-none tracking-tighter">XADREZ</span>
-            <span className="text-4xl font-signature text-black leading-none">Brasília</span>
+            <span className="text-xl md:text-2xl font-arial-black text-black leading-none tracking-tighter">XADREZ</span>
+            <span className="text-3xl md:text-4xl font-signature text-black leading-none">Brasília</span>
           </div>
         </div>
+
+        {/* Desktop Menu */}
         <div className="hidden lg:flex gap-8 font-bold text-gray-500 uppercase text-xs tracking-widest items-center">
           <a href="#match" className="hover:text-green-600 transition-colors border-b-2 border-transparent hover:border-yellow-400 pb-1">Encontrar</a>
           <a href="#timeline" className="hover:text-green-600 transition-colors border-b-2 border-transparent hover:border-yellow-400 pb-1">Calendário</a>
@@ -106,12 +113,52 @@ const App = () => {
             CADASTRAR
           </button>
         </div>
-        <div className="w-12 h-12 flex items-center justify-center lg:hidden">
-          <ChevronDown size={24} className="text-blue-900" />
-        </div>
+
+        {/* Mobile Toggle Button */}
+        <button 
+          onClick={toggleMobileMenu}
+          className="lg:hidden w-11 h-11 flex items-center justify-center bg-gray-50 rounded-xl text-blue-900 active:scale-95 transition-all"
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </nav>
 
-      <section id="match" className="relative pt-40 pb-24 px-6 bg-gradient-to-b from-blue-50/50 to-white overflow-hidden">
+      {/* Mobile Menu Overlay */}
+      <div className={`fixed inset-0 z-[140] lg:hidden transition-all duration-500 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+        <div className="absolute inset-0 bg-blue-900/60 backdrop-blur-md" onClick={closeMobileMenu} />
+        <div className={`absolute right-0 top-0 bottom-0 w-4/5 max-w-sm bg-white shadow-2xl transition-transform duration-500 transform ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} flex flex-col p-8 pt-24 gap-8`}>
+          <div className="flex flex-col gap-6">
+            <a href="#match" onClick={closeMobileMenu} className="text-2xl font-brand text-blue-900 uppercase tracking-tighter flex items-center justify-between group">
+              Encontrar <ChevronRight size={20} className="text-yellow-400 group-hover:translate-x-1 transition-transform" />
+            </a>
+            <a href="#timeline" onClick={closeMobileMenu} className="text-2xl font-brand text-blue-900 uppercase tracking-tighter flex items-center justify-between group">
+              Calendário <ChevronRight size={20} className="text-yellow-400 group-hover:translate-x-1 transition-transform" />
+            </a>
+            <a href="#social" onClick={closeMobileMenu} className="text-2xl font-brand text-blue-900 uppercase tracking-tighter flex items-center justify-between group">
+              Comunidade <ChevronRight size={20} className="text-yellow-400 group-hover:translate-x-1 transition-transform" />
+            </a>
+            <a href="#contact" onClick={closeMobileMenu} className="text-2xl font-brand text-blue-900 uppercase tracking-tighter flex items-center justify-between group">
+              Suporte <ChevronRight size={20} className="text-yellow-400 group-hover:translate-x-1 transition-transform" />
+            </a>
+          </div>
+
+          <div className="mt-auto space-y-4">
+            <button 
+              onClick={() => { closeMobileMenu(); setIsRegisterModalOpen(true); }}
+              className="w-full bg-blue-900 text-white py-5 rounded-2xl flex items-center justify-center gap-3 font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all"
+            >
+              <PlusCircle size={20} />
+              CADASTRAR EVENTO
+            </button>
+            <div className="flex justify-center gap-6 py-4">
+              <a href="https://www.instagram.com/xadrezbrasiliaeventos/" target="_blank" className="text-gray-400 hover:text-blue-900"><Instagram size={24} /></a>
+              <a href="https://www.youtube.com/@XadrezBrasiliaEventos" target="_blank" className="text-gray-400 hover:text-blue-900"><Youtube size={24} /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section id="match" className="relative pt-32 md:pt-40 pb-24 px-6 bg-gradient-to-b from-blue-50/50 to-white overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col items-center">
           <header className="text-center mb-16 animate-fade-in">
             {selectedDay !== null ? (
@@ -132,13 +179,13 @@ const App = () => {
               </div>
             )}
             
-            <h1 className="text-5xl md:text-7xl font-brand text-blue-900 mb-6 leading-[1.1] tracking-tighter">
+            <h1 className="text-4xl md:text-7xl font-brand text-blue-900 mb-6 leading-[1.1] tracking-tighter">
               {selectedDay !== null 
                 ? `Eventos de ${selectedDay} de ${MONTH_NAMES_FULL[selectedMonthIndex ?? TODAY_MONTH]}`
                 : <>Dê um <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-yellow-500">Checkmate</span> <br />no seu próximo desafio.</>
               }
             </h1>
-            <p className="text-lg text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed mb-8">
+            <p className="text-base md:text-lg text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed mb-8">
               Explore o ecossistema brasiliense de xadrez: Torneios <strong>Blitz</strong> para agilidade, <strong>Rápidos</strong> para precisão e <strong>Pensados</strong> para mestres.
             </p>
             
