@@ -113,6 +113,16 @@ export const TOURNAMENTS: Tournament[] = ([
     link: "https://docs.google.com/forms/d/e/1FAIpQLScW4XFy2V5rTj_KOklL-DViMU1_71KSpupptzruRDT107SOJg/viewform",
     registrationLink: "https://docs.google.com/forms/d/e/1FAIpQLScW4XFy2V5rTj_KOklL-DViMU1_71KSpupptzruRDT107SOJg/viewform",
     chessResultsLink: "https://s3.chess-results.com/tnr1336608.aspx?lan=10&turdet=YES&SNode=S0"
+  },
+  { 
+    id: 6, 
+    name: "Torneio LBX Carnaval Blitz", 
+    ...createEventDate("14/02/2026"),
+    time: "08:30", 
+    location: "Rua CIOPS Lunabel (Novo Gama/GO)", 
+    type: ["Blitz"], 
+    prize: "Medalhas", 
+    image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxcarnablitz.JPG", 
   }
 ] as Tournament[]).sort((a, b) => {
   const dateA = new Date(a.year, a.monthIndex, a.day).getTime();
