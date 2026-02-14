@@ -245,27 +245,38 @@ const App = () => {
       )}
 
       <section className="py-24 bg-white px-6">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10">
-          <div className="group bg-gray-50 p-10 rounded-[40px] shadow-sm border-t-8 border-green-600 hover:bg-white hover:shadow-2xl transition-all duration-500">
-            <div className="w-16 h-16 bg-green-100 rounded-3xl flex items-center justify-center text-green-600 mb-8 group-hover:scale-110 transition-transform">
-              <Trophy size={36} />
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-8">
+          {/* Card Rating Oficial */}
+          <div className="group bg-gray-50 p-8 rounded-[40px] shadow-sm border-l-8 border-green-600 hover:bg-white hover:shadow-2xl transition-all duration-500 flex items-start gap-6">
+            <div className="flex-shrink-0 w-20 h-20 bg-green-100 rounded-3xl flex items-center justify-center text-green-600 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+              <Trophy size={44} />
             </div>
-            <h3 className="text-2xl font-brand text-blue-900 mb-5 tracking-tight uppercase">Rating Oficial</h3>
-            <p className="text-gray-500 font-medium leading-relaxed">Aumente sua pontuação nos rankings FIDE e CBX participando de competições homologadas.</p>
+            <div className="flex-grow">
+              <h3 className="text-xl font-brand text-blue-900 mb-2 tracking-tight uppercase">Rating Oficial</h3>
+              <p className="text-gray-500 text-sm font-medium leading-relaxed">Aumente sua pontuação nos rankings FIDE e CBX participando de competições homologadas.</p>
+            </div>
           </div>
-          <div className="group bg-gray-50 p-10 rounded-[40px] shadow-sm border-t-8 border-yellow-400 hover:bg-white hover:shadow-2xl transition-all duration-500">
-            <div className="w-16 h-16 bg-yellow-100 rounded-3xl flex items-center justify-center text-yellow-600 mb-8 group-hover:scale-110 transition-transform">
-              <MapPin size={36} />
+
+          {/* Card Locais Privilegiados */}
+          <div className="group bg-gray-50 p-8 rounded-[40px] shadow-sm border-l-8 border-yellow-400 hover:bg-white hover:shadow-2xl transition-all duration-500 flex items-start gap-6">
+            <div className="flex-shrink-0 w-20 h-20 bg-yellow-100 rounded-3xl flex items-center justify-center text-yellow-600 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+              <MapPin size={44} />
             </div>
-            <h3 className="text-2xl font-brand text-blue-900 mb-5 tracking-tight uppercase">Locais Privilegiados</h3>
-            <p className="text-gray-500 font-medium leading-relaxed">Eventos realizados nos melhores clubes, hotéis e centros de convenções de Brasília e região.</p>
+            <div className="flex-grow">
+              <h3 className="text-xl font-brand text-blue-900 mb-2 tracking-tight uppercase">Locais Privilegiados</h3>
+              <p className="text-gray-500 text-sm font-medium leading-relaxed">Eventos realizados nos melhores clubes, hotéis e centros de convenções de Brasília e região.</p>
+            </div>
           </div>
-          <div className="group bg-gray-50 p-10 rounded-[40px] shadow-sm border-t-8 border-blue-900 hover:bg-white hover:shadow-2xl transition-all duration-500">
-            <div className="w-16 h-16 bg-blue-100 rounded-3xl flex items-center justify-center text-blue-900 mb-8 group-hover:scale-110 transition-transform">
-              <Info size={36} />
+
+          {/* Card Total Transparência */}
+          <div className="group bg-gray-50 p-8 rounded-[40px] shadow-sm border-l-8 border-blue-900 hover:bg-white hover:shadow-2xl transition-all duration-500 flex items-start gap-6">
+            <div className="flex-shrink-0 w-20 h-20 bg-blue-100 rounded-3xl flex items-center justify-center text-blue-900 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+              <Info size={44} />
             </div>
-            <h3 className="text-2xl font-brand text-blue-900 mb-5 tracking-tight uppercase">Total Transparência</h3>
-            <p className="text-gray-500 font-medium leading-relaxed">Acesso facilitado a regulamentos, cronogramas detalhados e link para formulários de inscrição.</p>
+            <div className="flex-grow">
+              <h3 className="text-xl font-brand text-blue-900 mb-2 tracking-tight uppercase">Total Transparência</h3>
+              <p className="text-gray-500 text-sm font-medium leading-relaxed">Acesso facilitado a regulamentos, cronogramas detalhados e link para formulários de inscrição.</p>
+            </div>
           </div>
         </div>
       </section>
