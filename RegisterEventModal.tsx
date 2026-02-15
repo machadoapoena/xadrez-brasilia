@@ -35,6 +35,7 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
     city: '',
     state: 'DF',
     prize: '',
+    contact: '', // Novo campo de contato
     link_details: '',
     link_registration: '',
     link_chessresults: '',
@@ -84,8 +85,6 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
         throw new Error(`Erro no Storage: ${uploadError.message}`);
       }
 
-      console.log('Upload concluído com sucesso:', data);
-
       const { data: publicData } = supabase.storage
         .from('xadrez-brasilia')
         .getPublicUrl(filePath);
@@ -99,13 +98,10 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Botão Enviar clicado. Validando formulário...');
-
     if (formData.types.length === 0) {
       setError("Selecione ao menos um tipo de torneio (Blitz, Rapid, etc)");
       return;
     }
-
     if (!selectedFile) {
       setError("Por favor, selecione uma imagem para o banner do evento.");
       return;
@@ -115,17 +111,9 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
     setError(null);
 
     try {
-      // 1. Upload da Imagem
       const imageUrl = await uploadImage(selectedFile);
-      
-      if (!imageUrl) {
-        throw new Error('Falha ao gerar URL da imagem. Verifique se o bucket "xadrez-brasilia" existe e tem políticas de INSERT públicas.');
-      }
+      if (!imageUrl) throw new Error('Falha ao gerar URL da imagem.');
 
-      console.log('URL da imagem obtida:', imageUrl);
-
-      // 2. Inserção no Banco de Dados
-      console.log('Enviando dados para a tabela events...');
       const { error: supabaseError } = await supabase
         .from('events')
         .insert([{
@@ -137,6 +125,7 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
           city: formData.city,
           state: formData.state,
           prize: formData.prize,
+          contact: formData.contact, // Inclusão do contato no insert
           link_details: formData.link_details,
           link_registration: formData.link_registration,
           link_chessresults: formData.link_chessresults,
@@ -144,15 +133,9 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
           status: 'enviado'
         }]);
 
-      if (supabaseError) {
-        console.error('Erro retornado pelo Supabase Database:', supabaseError);
-        throw new Error(`Erro no Banco de Dados: ${supabaseError.message}`);
-      }
+      if (supabaseError) throw new Error(`Erro no Banco de Dados: ${supabaseError.message}`);
 
-      console.log('Evento cadastrado com sucesso!');
       setSuccess(true);
-      
-      // Limpeza após sucesso
       setTimeout(() => {
         setSuccess(false);
         onClose();
@@ -165,6 +148,7 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
           city: '',
           state: 'DF',
           prize: '',
+          contact: '',
           link_details: '',
           link_registration: '',
           link_chessresults: '',
@@ -173,10 +157,8 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
         setSelectedFile(null);
         setImagePreview(null);
       }, 3000);
-
     } catch (err: any) {
-      console.error('Erro capturado no handleSubmit:', err);
-      setError(err.message || 'Ocorreu um erro inesperado. Verifique o console do navegador.');
+      setError(err.message || 'Ocorreu um erro inesperado.');
     } finally {
       setLoading(false);
     }
@@ -297,9 +279,15 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">Premiação</label>
-                  <input required type="text" placeholder="R$ 1.000,00" className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none font-medium" value={formData.prize} onChange={e => setFormData({...formData, prize: e.target.value})} />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">Premiação</label>
+                    <input required type="text" placeholder="Ex: R$ 1.000,00" className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none font-medium" value={formData.prize} onChange={e => setFormData({...formData, prize: e.target.value})} />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">WhatsApp de Contato (DDI + DDD)</label>
+                    <input required type="tel" placeholder="Ex: 5561988887777" className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none font-medium" value={formData.contact} onChange={e => setFormData({...formData, contact: e.target.value})} />
+                  </div>
                 </div>
               </div>
 

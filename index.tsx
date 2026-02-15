@@ -37,13 +37,23 @@ import { RegisterEventModal } from './RegisterEventModal.tsx';
 const App = () => {
   // Encontra o índice do primeiro torneio que acontece hoje ou no futuro
   const initialIndex = useMemo(() => {
-    const today = new Date(TODAY_YEAR, TODAY_MONTH, TODAY_DAY).getTime();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayMs = today.getTime();
+
     const index = TOURNAMENTS.findIndex(t => {
-      const eventDate = new Date(t.year, t.monthIndex, t.day).getTime();
-      return eventDate >= today;
+      const eventDate = new Date(t.year, t.monthIndex, t.day);
+      eventDate.setHours(0, 0, 0, 0);
+      return eventDate.getTime() >= todayMs;
     });
-    // Se não encontrar nenhum futuro, começa do último ou do 0
-    return index === -1 ? Math.max(0, TOURNAMENTS.length - 3) : index;
+
+    // Se não encontrar nenhum futuro, começa do 0 ou do início do último bloco de 3
+    if (index === -1) return Math.max(0, TOURNAMENTS.length - 3);
+    
+    // Ajusta o índice para ser um múltiplo de 3 para manter a paginação limpa, 
+    // ou simplesmente inicia no index exato do próximo evento.
+    // Iniciaremos no index exato para garantir que o PRÓXIMO seja o primeiro card.
+    return index;
   }, []);
 
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
@@ -69,13 +79,15 @@ const App = () => {
 
   const nextMatches = () => {
     if (canGoForward) {
-      setCurrentIndex(prev => prev + 1); // Avança de 1 em 1 para melhor navegação
+      // Avança de 3 em 3 para navegar por páginas de cards
+      setCurrentIndex(prev => Math.min(prev + 3, TOURNAMENTS.length - 1));
     }
   };
 
   const prevMatches = () => {
     if (canGoBack) {
-      setCurrentIndex(prev => Math.max(0, prev - 1)); // Recua de 1 em 1
+      // Recua de 3 em 3
+      setCurrentIndex(prev => Math.max(0, prev - 3));
     }
   };
 
@@ -243,7 +255,7 @@ const App = () => {
               </button>
               
               <div className="bg-blue-900 text-white px-10 py-4 rounded-[20px] font-black shadow-2xl transition-all flex items-center gap-4 text-xs uppercase tracking-[0.2em]">
-                 {currentIndex + 1} / {TOURNAMENTS.length}
+                 {currentIndex + 1} - {Math.min(currentIndex + 3, TOURNAMENTS.length)} / {TOURNAMENTS.length}
               </div>
 
               <button 
