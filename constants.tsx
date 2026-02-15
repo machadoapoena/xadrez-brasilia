@@ -124,6 +124,17 @@ export const TOURNAMENTS: Tournament[] = ([
     prize: "Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxcarnablitz.JPG",
     chessResultsLink: "https://s2.chess-results.com/tnr1353358.aspx?lan=10&SNode=S0"
+  },
+  { 
+    id: 7, 
+    name: "LBX Carnaval Capivarou Arremate Bloco GCX", 
+    ...createEventDate("15/02/2026"),
+    time: "14:30", 
+    location: "St. Leste Q 22 - (Gama, DF)", 
+    type: ["Rápido"], 
+    prize: "Medalhas", 
+    image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxdivina.JPG",
+    chessResultsLink: "https://s3.chess-results.com/tnr1353815.aspx?lan=1"
   }
 ] as Tournament[]).sort((a, b) => {
   const dateA = new Date(a.year, a.monthIndex, a.day).getTime();

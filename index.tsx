@@ -20,6 +20,7 @@ import {
 import {
   TODAY_DAY,
   TODAY_MONTH,
+  TODAY_YEAR,
   MONTH_NAMES_FULL,
   LOGO_URL,
   TOURNAMENTS
@@ -34,7 +35,18 @@ import { ContactForm } from './ContactForm.tsx';
 import { RegisterEventModal } from './RegisterEventModal.tsx';
 
 const App = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // Encontra o índice do primeiro torneio que acontece hoje ou no futuro
+  const initialIndex = useMemo(() => {
+    const today = new Date(TODAY_YEAR, TODAY_MONTH, TODAY_DAY).getTime();
+    const index = TOURNAMENTS.findIndex(t => {
+      const eventDate = new Date(t.year, t.monthIndex, t.day).getTime();
+      return eventDate >= today;
+    });
+    // Se não encontrar nenhum futuro, começa do último ou do 0
+    return index === -1 ? Math.max(0, TOURNAMENTS.length - 3) : index;
+  }, []);
+
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [selectedMonthIndex, setSelectedMonthIndex] = useState<number | null>(null);
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
@@ -57,13 +69,13 @@ const App = () => {
 
   const nextMatches = () => {
     if (canGoForward) {
-      setCurrentIndex(prev => prev + 3);
+      setCurrentIndex(prev => prev + 1); // Avança de 1 em 1 para melhor navegação
     }
   };
 
   const prevMatches = () => {
     if (canGoBack) {
-      setCurrentIndex(prev => Math.max(0, prev - 3));
+      setCurrentIndex(prev => Math.max(0, prev - 1)); // Recua de 1 em 1
     }
   };
 
@@ -80,7 +92,7 @@ const App = () => {
   const clearFilter = () => {
     setSelectedDay(null);
     setSelectedMonthIndex(null);
-    setCurrentIndex(0);
+    setCurrentIndex(initialIndex);
   };
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -230,13 +242,9 @@ const App = () => {
                 <ChevronLeft size={24} />
               </button>
               
-              <button 
-                onClick={nextMatches}
-                disabled={!canGoForward}
-                className={`bg-blue-900 text-white px-10 py-4 rounded-[20px] font-black shadow-2xl transition-all transform flex items-center gap-4 text-xs uppercase tracking-[0.2em] ${canGoForward ? 'hover:shadow-blue-900/40 hover:translate-y-[-2px] active:scale-95 cursor-pointer' : 'opacity-50 cursor-not-allowed'}`}
-              >
-                {canGoForward ? 'MAIS TORNEIOS' : 'FIM DA LISTA'} <ChevronRight size={16} />
-              </button>
+              <div className="bg-blue-900 text-white px-10 py-4 rounded-[20px] font-black shadow-2xl transition-all flex items-center gap-4 text-xs uppercase tracking-[0.2em]">
+                 {currentIndex + 1} / {TOURNAMENTS.length}
+              </div>
 
               <button 
                 onClick={nextMatches} 
