@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Trophy, MapPin, Clock, ExternalLink, RotateCcw, BarChart2 } from 'lucide-react';
+import { Trophy, MapPin, Clock, ExternalLink, RotateCcw, BarChart2, MessageCircle } from 'lucide-react';
 import QRCode from 'qrcode';
 import { Tournament } from './constants.tsx';
 import { getBadgeStyles } from './utils.tsx';
@@ -10,13 +10,13 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  // Função JavaScript que gera o QR Code localmente
+  const hasContact = !!tournament.contact;
+
   const generateQRCode = async () => {
     if (!tournament.chessResultsLink || qrCodeDataUrl || isGenerating) return;
     
     setIsGenerating(true);
     try {
-      // Gera o QR Code como um Data URL (imagem base64) localmente
       const url = await QRCode.toDataURL(tournament.chessResultsLink, {
         width: 300,
         margin: 2,
@@ -36,8 +36,6 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
   const handleFlip = () => {
     const nextState = !isFlipped;
     setIsFlipped(nextState);
-    
-    // Dispara a geração apenas se estiver virando para o verso e o link existir
     if (nextState && !qrCodeDataUrl) {
       generateQRCode();
     }
@@ -47,9 +45,18 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
     e.stopPropagation();
   };
 
+  const handleWhatsAppClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!hasContact) return;
+    
+    const message = `Olá! Gostaria de tirar uma dúvida sobre o torneio "${tournament.name}" que vi no portal Xadrez Brasília.`;
+    const url = `https://wa.me/${tournament.contact}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  };
+
   return (
     <div 
-      className="w-full max-w-[320px] h-[400px] perspective-1000 cursor-pointer group"
+      className="w-full max-w-[320px] h-[410px] perspective-1000 cursor-pointer group"
       onClick={handleFlip}
     >
       <div className={`relative w-full h-full transition-transform duration-700 preserve-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
@@ -104,21 +111,31 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
                 </div>
               )}
 
-              {tournament.registrationLink ? (
-                <a 
-                  href={tournament.registrationLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={handleButtonClick}
-                  className="w-full py-2 bg-green-600 text-white font-black rounded-xl text-[9px] uppercase tracking-[0.1em] hover:bg-green-500 transition-all transform hover:translate-y-[-1px] flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-green-900/20"
+              <div className="flex gap-1.5">
+                {tournament.registrationLink ? (
+                  <a 
+                    href={tournament.registrationLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={handleButtonClick}
+                    className="flex-1 py-2 bg-green-600 text-white font-black rounded-xl text-[9px] uppercase tracking-[0.1em] hover:bg-green-500 transition-all transform hover:translate-y-[-1px] flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-green-900/20"
+                  >
+                    <ExternalLink size={11} /> Inscrição
+                  </a>
+                ) : (
+                  <div className="flex-1 py-2 bg-gray-300 text-gray-500 font-black rounded-xl text-[9px] uppercase tracking-[0.1em] flex items-center justify-center gap-2 cursor-not-allowed opacity-80" onClick={handleButtonClick}>
+                    <ExternalLink size={11} className="opacity-40" /> Breve
+                  </div>
+                )}
+                
+                <button 
+                  onClick={hasContact ? handleWhatsAppClick : handleButtonClick}
+                  className={`flex-1 py-2 ${hasContact ? 'bg-[#25D366] hover:bg-[#20ba59] shadow-[#25D366]/20' : 'bg-gray-300 cursor-not-allowed opacity-80 shadow-none'} text-white font-black rounded-xl text-[9px] uppercase tracking-[0.1em] flex items-center justify-center gap-2 transition-all transform ${hasContact ? 'hover:translate-y-[-1px] active:scale-95 shadow-lg' : ''}`}
+                  title={hasContact ? "Dúvidas no WhatsApp" : "Contato indisponível"}
                 >
-                  <ExternalLink size={11} /> Fazer Inscrição
-                </a>
-              ) : (
-                <div className="w-full py-2 bg-gray-300 text-gray-500 font-black rounded-xl text-[9px] uppercase tracking-[0.1em] flex items-center justify-center gap-2 cursor-not-allowed opacity-80" onClick={handleButtonClick}>
-                  <ExternalLink size={11} className="opacity-40" /> Inscrição Em Breve
-                </div>
-              )}
+                  <MessageCircle size={14} className={hasContact ? "" : "opacity-40"} /> WhatsApp
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -28,6 +28,7 @@ export interface Tournament {
   link?: string;
   registrationLink?: string;
   chessResultsLink?: string;
+  contact?: string; // Campo opcional para contato via WhatsApp
 }
 
 export interface Partner {
@@ -76,6 +77,7 @@ export const TOURNAMENTS: Tournament[] = ([
     type: ["Rápido"], 
     prize: "Troféus e Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxcarna.JPG", 
+    contact: "5561993850214"
   },
   { 
     id: 3, 
@@ -88,7 +90,8 @@ export const TOURNAMENTS: Tournament[] = ([
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxabertoplaza.png", 
     link: "https://xadrezdf.com.br/",
     registrationLink: "https://xadrezdf.com.br/",
-    chessResultsLink: "https://s2.chess-results.com/tnr1347185.aspx?lan=10"
+    chessResultsLink: "https://s2.chess-results.com/tnr1347185.aspx?lan=10",
+    contact: "5561993850214"
   },
   { 
     id: 4, 
@@ -100,6 +103,7 @@ export const TOURNAMENTS: Tournament[] = ([
     prize: "R$ 630,00 e Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_circfbxrapid.png", 
     link: "https://gerenciador-circuito-xadrez.vercel.app/",
+    // Sem contato para testar o botão cinza
   },
   { 
     id: 5, 
@@ -123,7 +127,8 @@ export const TOURNAMENTS: Tournament[] = ([
     type: ["Blitz"], 
     prize: "Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxcarnablitz.JPG",
-    chessResultsLink: "https://s2.chess-results.com/tnr1353358.aspx?lan=10&SNode=S0"
+    chessResultsLink: "https://s2.chess-results.com/tnr1353358.aspx?lan=10&SNode=S0",
+    contact: "5561993850214"
   },
   { 
     id: 7, 
@@ -134,7 +139,8 @@ export const TOURNAMENTS: Tournament[] = ([
     type: ["Rápido"], 
     prize: "Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxdivina.JPG",
-    chessResultsLink: "https://s3.chess-results.com/tnr1353815.aspx?lan=1"
+    chessResultsLink: "https://s3.chess-results.com/tnr1353815.aspx?lan=1",
+    contact: "5561993850214"
   }
 ] as Tournament[]).sort((a, b) => {
   const dateA = new Date(a.year, a.monthIndex, a.day).getTime();
