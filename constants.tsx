@@ -66,7 +66,8 @@ export const TOURNAMENTS: Tournament[] = ([
     type: ["Rápido"], 
     prize: "Troféus e Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_capivarias.JPG", 
-    link: "https://mearas.com.br/capivarias/"
+    link: "https://mearas.com.br/capivarias/",
+    contact: "5561981684530"
   },
   { 
     id: 2, 
@@ -77,7 +78,7 @@ export const TOURNAMENTS: Tournament[] = ([
     type: ["Rápido"], 
     prize: "Troféus e Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxcarna.JPG", 
-    contact: "5561993850214"
+    contact: "5561981222312"
   },
   { 
     id: 3, 
@@ -91,7 +92,7 @@ export const TOURNAMENTS: Tournament[] = ([
     link: "https://xadrezdf.com.br/",
     registrationLink: "https://xadrezdf.com.br/",
     chessResultsLink: "https://s2.chess-results.com/tnr1347185.aspx?lan=10",
-    contact: "5561993850214"
+    contact: "5561981222312"
   },
   { 
     id: 4, 
@@ -116,7 +117,8 @@ export const TOURNAMENTS: Tournament[] = ([
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_fup.jpg", 
     link: "https://docs.google.com/forms/d/e/1FAIpQLScW4XFy2V5rTj_KOklL-DViMU1_71KSpupptzruRDT107SOJg/viewform",
     registrationLink: "https://docs.google.com/forms/d/e/1FAIpQLScW4XFy2V5rTj_KOklL-DViMU1_71KSpupptzruRDT107SOJg/viewform",
-    chessResultsLink: "https://s3.chess-results.com/tnr1336608.aspx?lan=10&turdet=YES&SNode=S0"
+    chessResultsLink: "https://s3.chess-results.com/tnr1336608.aspx?lan=10&turdet=YES&SNode=S0",
+    contact: "5561998058689"
   },
   { 
     id: 6, 
@@ -127,8 +129,8 @@ export const TOURNAMENTS: Tournament[] = ([
     type: ["Blitz"], 
     prize: "Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxcarnablitz.JPG",
-    chessResultsLink: "https://s2.chess-results.com/tnr1353358.aspx?lan=10&SNode=S0",
-    contact: "5561993850214"
+    chessResultsLink: "https://s2.chess-results.com/tnr1353358.aspx?lan=10&SNode=S0"
+    // Sem contato para testar o botão cinza
   },
   { 
     id: 7, 
@@ -140,7 +142,7 @@ export const TOURNAMENTS: Tournament[] = ([
     prize: "Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxdivina.JPG",
     chessResultsLink: "https://s3.chess-results.com/tnr1353815.aspx?lan=1",
-    contact: "5561993850214"
+    contact: "5561981222312"
   }
 ] as Tournament[]).sort((a, b) => {
   const dateA = new Date(a.year, a.monthIndex, a.day).getTime();
