@@ -89,8 +89,8 @@ export const TOURNAMENTS: Tournament[] = ([
     type: ["Rápido"], 
     prize: "Troféus e Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxabertoplaza.png", 
-    link: "https://xadrezdf.com.br/",
-    registrationLink: "https://xadrezdf.com.br/",
+    link: "https://xadrezdf.com.br/?xa=c4ca4238a0b923820dcc509a6f75849b&xs=231141b34c82aa95e48810a9d1b33a79",
+    registrationLink: "https://xadrezdf.com.br/?xa=c4ca4238a0b923820dcc509a6f75849b&xs=231141b34c82aa95e48810a9d1b33a79",
     chessResultsLink: "https://s2.chess-results.com/tnr1347185.aspx?lan=10",
     contact: "5561981222312"
   },
