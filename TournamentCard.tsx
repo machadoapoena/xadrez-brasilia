@@ -67,9 +67,9 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
           <div className="absolute inset-0 bg-gradient-to-t from-blue-900/95 via-blue-900/40 to-transparent" />
           
           <div className="absolute top-4 left-4 flex flex-col items-center">
-            <div className="bg-yellow-400 text-blue-900 px-3 py-1.5 rounded-2xl shadow-xl border border-white/20">
-              <span className="text-2xl font-black font-brand block leading-none">{tournament.day}</span>
-              <span className="text-[9px] font-bold uppercase tracking-widest">{tournament.month}</span>
+            <div className="bg-yellow-400 text-blue-900 px-4 py-2.5 rounded-2xl shadow-xl border border-white/20 flex flex-col items-center justify-center min-w-[65px]">
+              <span className="text-4xl font-black font-brand block leading-none">{tournament.day}</span>
+              <span className="text-[11px] font-bold uppercase tracking-widest mt-1">{tournament.month}</span>
             </div>
           </div>
 
