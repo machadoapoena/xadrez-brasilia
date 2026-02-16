@@ -139,7 +139,7 @@ export const TOURNAMENTS: Tournament[] = ([
     time: "14:30", 
     location: "St. Leste Q 22 - (Gama, DF)", 
     type: ["Rápido"], 
-    prize: "Medalhas", 
+    prize: "Rodízio de Pizza", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxdivina.JPG",
     chessResultsLink: "https://s3.chess-results.com/tnr1353815.aspx?lan=1",
     contact: "5561981222312"
