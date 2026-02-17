@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Trophy, MapPin, Clock, ExternalLink, RotateCcw, BarChart2, MessageCircle, Timer } from 'lucide-react';
 import QRCode from 'qrcode';
 import { Tournament } from './constants.tsx';
@@ -9,16 +9,10 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  
-  // Estados para o efeito Tilt 3D
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
-  const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
 
   const hasContact = !!tournament.contact;
 
-  // Cálculo de dias restantes
+  // Cálculo de dias restantes para o evento
   const daysRemaining = useMemo(() => {
     const eventDate = new Date(tournament.year, tournament.monthIndex, tournament.day);
     eventDate.setHours(0, 0, 0, 0);
@@ -58,39 +52,6 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
     if (nextState && !qrCodeDataUrl) {
       generateQRCode();
     }
-    setRotateX(0);
-    setRotateY(0);
-    setGlare(prev => ({ ...prev, opacity: 0 }));
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (isFlipped || !cardRef.current) return;
-
-    const card = cardRef.current;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    
-    const rotateXValue = ((y - centerY) / centerY) * -20;
-    const rotateYValue = ((x - centerX) / centerX) * 20;
-    
-    setRotateX(rotateXValue);
-    setRotateY(rotateYValue);
-    
-    setGlare({
-      x: (x / rect.width) * 100,
-      y: (y / rect.height) * 100,
-      opacity: 0.4
-    });
-  };
-
-  const handleMouseLeave = () => {
-    setRotateX(0);
-    setRotateY(0);
-    setGlare(prev => ({ ...prev, opacity: 0 }));
   };
 
   const handleButtonClick = (e: React.MouseEvent) => {
@@ -125,8 +86,7 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
 
     return (
       <div 
-        className={`absolute top-4 right-4 ${bgColor} text-white px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5 shadow-xl border border-white/20 transform-gpu`}
-        style={{ transform: `translateZ(55px)` }}
+        className={`absolute top-4 right-4 ${bgColor} text-white px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5 shadow-md border border-white/20 z-20 transition-all`}
       >
         <Timer size={12} className="animate-pulse" />
         {text}
@@ -136,56 +96,35 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
 
   return (
     <div 
-      ref={cardRef}
-      className="w-full max-w-[320px] h-[410px] perspective-2000 cursor-pointer group"
+      className="w-full max-w-[320px] h-[410px] perspective-1000 cursor-pointer group"
       onClick={handleFlip}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
     >
       <div 
-        className={`relative w-full h-full transition-all duration-700 preserve-3d shadow-2xl rounded-[32px] ${isFlipped ? 'rotate-y-180' : ''}`}
-        style={{
-          transform: isFlipped 
-            ? 'rotateY(180deg)' 
-            : `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
-          transition: isFlipped ? 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)' : 'transform 0.1s ease-out',
-          boxShadow: isFlipped 
-            ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)' 
-            : `${-rotateY}px ${rotateX}px 30px rgba(0,0,0,0.3)`
-        }}
+        className={`relative w-full h-full transition-transform duration-700 preserve-3d shadow-xl rounded-[32px] ${isFlipped ? 'rotate-y-180' : ''}`}
       >
         
         {/* Lado da Frente */}
-        <div className="absolute inset-0 backface-hidden flex flex-col rounded-[32px] overflow-hidden bg-white border-4 border-yellow-400 isolate transform-gpu force-gpu-clip">
+        <div className="absolute inset-0 backface-hidden flex flex-col rounded-[32px] overflow-hidden bg-white border-4 border-yellow-400 isolate force-gpu-clip">
           <img 
             src={tournament.image} 
             alt={tournament.name} 
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 scale-110"
-            style={{
-                transform: `translateX(${rotateY * -0.5}px) translateY(${rotateX * 0.5}px) scale(1.1)`
-            }}
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-blue-900/95 via-blue-900/30 to-transparent" />
           
-          {/* Badge de Dias Restantes (Novo) */}
+          {/* Badge de Dias Restantes */}
           {renderDaysBadge()}
 
-          {/* Badge de Data (Nível Z: 60px) */}
-          <div 
-            className="absolute top-4 left-4 flex flex-col items-center transform-gpu"
-            style={{ transform: `translateZ(60px)` }}
-          >
-            <div className="bg-yellow-400 text-blue-900 px-4 py-2.5 rounded-2xl shadow-[0_10px_20px_rgba(0,0,0,0.3)] border border-white/20 flex flex-col items-center justify-center min-w-[70px]">
+          {/* Badge de Data */}
+          <div className="absolute top-4 left-4 flex flex-col items-center z-20">
+            <div className="bg-yellow-400 text-blue-900 px-4 py-2.5 rounded-2xl shadow-lg border border-white/20 flex flex-col items-center justify-center min-w-[70px]">
               <span className="text-4xl font-black font-brand block leading-none">{tournament.day}</span>
               <span className="text-[11px] font-bold uppercase tracking-widest mt-1">{tournament.month}</span>
             </div>
           </div>
 
-          {/* Conteúdo Inferior (Nível Z: 40px) */}
-          <div 
-            className="absolute bottom-0 left-0 right-0 p-5 transform-gpu"
-            style={{ transform: `translateZ(40px)` }}
-          >
+          {/* Conteúdo Inferior */}
+          <div className="absolute bottom-0 left-0 right-0 p-5 z-20">
             <div className="flex flex-wrap items-center gap-2 mb-3">
               {tournament.type.map((t) => (
                 <span key={t} className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-sm ${getBadgeStyles(t)}`}>
@@ -197,7 +136,7 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
               </span>
             </div>
             
-            <h3 className="text-xl font-bold text-white mb-2 leading-tight group-hover:text-yellow-400 transition-colors line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+            <h3 className="text-xl font-bold text-white mb-2 leading-tight group-hover:text-yellow-400 transition-colors line-clamp-2">
               {tournament.name}
             </h3>
             
@@ -254,22 +193,12 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
               </div>
             </div>
           </div>
-
-          {!isFlipped && (
-            <div 
-              className="absolute inset-0 pointer-events-none transition-opacity duration-300 z-50"
-              style={{
-                opacity: glare.opacity,
-                background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(255,255,255,0.6) 0%, transparent 60%)`
-              }}
-            />
-          )}
         </div>
 
         {/* Lado de Trás */}
         <div className="absolute inset-0 backface-hidden rotate-y-180 flex flex-col rounded-[32px] overflow-hidden shadow-2xl bg-blue-900 border-4 border-green-600 p-8 text-center justify-center items-center">
           
-          <div className="mb-6 relative transform-gpu" style={{ transform: 'translateZ(50px)' }}>
+          <div className="mb-6 relative">
             {qrCodeDataUrl ? (
               <div className="p-3 bg-white rounded-3xl shadow-2xl border-2 border-green-600/30">
                 <img 
@@ -292,12 +221,12 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
             )}
           </div>
           
-          <h3 className="text-xl font-brand text-white mb-2 uppercase tracking-tight transform-gpu" style={{ transform: 'translateZ(40px)' }}>{tournament.name}</h3>
-          <p className="text-blue-200 text-[10px] font-bold uppercase tracking-widest mb-8 transform-gpu" style={{ transform: 'translateZ(30px)' }}>
+          <h3 className="text-xl font-brand text-white mb-2 uppercase tracking-tight">{tournament.name}</h3>
+          <p className="text-blue-200 text-[10px] font-bold uppercase tracking-widest mb-8">
             {qrCodeDataUrl ? 'Aponte a câmera para os resultados' : 'Informações Técnicas & Resultados'}
           </p>
 
-          <div className="w-full space-y-3 transform-gpu" style={{ transform: 'translateZ(60px)' }}>
+          <div className="w-full space-y-3">
             {tournament.chessResultsLink ? (
               <a 
                 href={tournament.chessResultsLink}
@@ -322,15 +251,15 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
             </button>
           </div>
 
-          <div className="absolute bottom-6 opacity-20 transform-gpu" style={{ transform: 'translateZ(20px)' }}>
+          <div className="absolute bottom-6 opacity-20">
             <img src="https://imagens.xadrezbrasilia.com/imagens/logo_xb.png" alt="XB" className="h-8 grayscale brightness-0 invert" />
           </div>
         </div>
       </div>
 
       <style>{`
-        .perspective-2000 {
-          perspective: 2000px;
+        .perspective-1000 {
+          perspective: 1000px;
         }
         .preserve-3d {
           transform-style: preserve-3d;
