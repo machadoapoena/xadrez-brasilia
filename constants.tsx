@@ -78,7 +78,8 @@ export const TOURNAMENTS: Tournament[] = ([
     type: ["Rápido"], 
     prize: "Troféus e Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxcarna.JPG", 
-    contact: "5561981222312"
+    contact: "5561981222312",
+    chessResultsLink: "https://s2.chess-results.com/tnr1353882.aspx?lan=1"
   },
   { 
     id: 3, 
