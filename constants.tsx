@@ -147,7 +147,7 @@ export const TOURNAMENTS: Tournament[] = ([
   },
   { 
     id: 8, 
-    name: "Festival Brasiliense da Juventude de Xadrez", 
+    name: "Festival Brasiliense da Juventude", 
     ...createEventDate("21/02/2026"),
     time: "09:30", 
     location: "Clube ASSEFE - (Brasília, DF)", 
