@@ -144,6 +144,16 @@ export const TOURNAMENTS: Tournament[] = ([
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxdivina.JPG",
     chessResultsLink: "https://s3.chess-results.com/tnr1353815.aspx?lan=1",
     contact: "5561981222312"
+  },
+  { 
+    id: 8, 
+    name: "Festival Brasiliense da Juventude de Xadrez", 
+    ...createEventDate("21/02/2026"),
+    time: "09:30", 
+    location: "Clube ASSEFE - (Brasília, DF)", 
+    type: ["Pensado"], 
+    prize: "Troféus e Medalhas", 
+    image: "https://imagens.xadrezbrasilia.com/imagens/tr_fbxj.JPG"
   }
 ] as Tournament[]).sort((a, b) => {
   const dateA = new Date(a.year, a.monthIndex, a.day).getTime();
