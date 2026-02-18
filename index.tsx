@@ -278,8 +278,9 @@ const App = () => {
       </section>
 
       <Timeline 
-        selectedDay={selectedDay && selectedMonthIndex === TODAY_MONTH ? selectedDay : null} 
-        onDayClick={(day) => handleDayClick(day, TODAY_MONTH)} 
+        selectedDay={selectedDay} 
+        selectedMonthIndex={selectedMonthIndex}
+        onDayClick={handleDayClick} 
         onOpenCalendar={() => setIsCalendarModalOpen(true)}
       />
 
