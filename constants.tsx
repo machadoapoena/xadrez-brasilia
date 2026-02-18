@@ -153,7 +153,8 @@ export const TOURNAMENTS: Tournament[] = ([
     location: "Clube ASSEFE - (Brasília, DF)", 
     type: ["Pensado"], 
     prize: "Troféus e Medalhas", 
-    image: "https://imagens.xadrezbrasilia.com/imagens/tr_fbxj.JPG"
+    image: "https://imagens.xadrezbrasilia.com/imagens/tr_fbxj.JPG",
+    contact: "556181484131"
   }
 ] as Tournament[]).sort((a, b) => {
   const dateA = new Date(a.year, a.monthIndex, a.day).getTime();
