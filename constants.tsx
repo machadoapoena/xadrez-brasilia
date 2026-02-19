@@ -147,15 +147,14 @@ export const TOURNAMENTS: Tournament[] = ([
   },
   { 
     id: 8, 
-    name: "Festival Brasiliense da Juventude", 
+    name: "Festival Brasiliense da Juventudee", 
     ...createEventDate("21/02/2026"),
     time: "09:30", 
     location: "Clube ASSEFE - (Brasília, DF)", 
     type: ["Pensado"], 
     prize: "Troféus e Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_fbxj.JPG",
-    contact: "556181484131",
-    link: "https://fbx.org.br/torneios/festival-brasiliense-da-juventude-de-xadrez-std-2026/"
+    contact: "556181484131"
   }
 ] as Tournament[]).sort((a, b) => {
   const dateA = new Date(a.year, a.monthIndex, a.day).getTime();
