@@ -136,7 +136,7 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
               </span>
             </div>
             
-            <h3 className="text-3xl font-black text-white mb-2 leading-tight group-hover:text-yellow-400 transition-colors line-clamp-2 text-shadow-lg">
+            <h3 className="text-2xl font-black text-white mb-2 leading-tight group-hover:text-yellow-400 transition-colors line-clamp-2 text-shadow-lg">
               {tournament.name}
             </h3>
             
