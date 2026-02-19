@@ -110,16 +110,16 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
             alt={tournament.name} 
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-blue-900/95 via-blue-900/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-blue-950 via-blue-900/70 to-blue-900/10" />
           
           {/* Badge de Dias Restantes */}
           {renderDaysBadge()}
 
           {/* Badge de Data */}
-          <div className="absolute top-4 left-4 flex flex-col items-center z-20">
-            <div className="bg-yellow-400 text-blue-900 px-4 py-2.5 rounded-2xl shadow-lg border border-white/20 flex flex-col items-center justify-center min-w-[70px]">
-              <span className="text-4xl font-black font-brand block leading-none">{tournament.day}</span>
-              <span className="text-[11px] font-bold uppercase tracking-widest mt-1">{tournament.month}</span>
+          <div className="absolute top-4 left-4 flex flex-col items-center z-20 drop-shadow-2xl">
+            <div className="bg-yellow-400 text-blue-900 px-4 py-2.5 rounded-2xl shadow-xl border-2 border-white/30 flex flex-col items-center justify-center min-w-[75px] transform group-hover:scale-105 transition-transform">
+              <span className="text-4xl font-black font-brand block leading-none drop-shadow-sm">{tournament.day}</span>
+              <span className="text-[11px] font-black uppercase tracking-widest mt-1">{tournament.month}</span>
             </div>
           </div>
 
@@ -136,16 +136,17 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
               </span>
             </div>
             
-            <h3 className="text-xl font-bold text-white mb-2 leading-tight group-hover:text-yellow-400 transition-colors line-clamp-2">
+            <h3 className="text-2xl font-black text-white mb-2 leading-tight group-hover:text-yellow-400 transition-colors line-clamp-2 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
               {tournament.name}
             </h3>
             
-            <div className="flex flex-col gap-1 text-gray-200 text-[10px] font-medium mb-4">
+            <div className="flex flex-col gap-1.5 text-white text-[11px] font-bold mb-4 drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
               <div className="flex items-center gap-2">
-                <MapPin size={11} className="text-yellow-400" /> {tournament.location}
+                <MapPin size={12} className="text-yellow-400 shrink-0" /> 
+                <span className="line-clamp-1">{tournament.location}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock size={11} className="text-yellow-400" /> {tournament.time}
+                <Clock size={12} className="text-yellow-400 shrink-0" /> {tournament.time}
               </div>
             </div>
             
