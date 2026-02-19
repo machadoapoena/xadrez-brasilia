@@ -136,16 +136,16 @@ export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
               </span>
             </div>
             
-            <h3 className="text-xl font-bold text-white mb-2 leading-tight group-hover:text-yellow-400 transition-colors line-clamp-2">
+            <h3 className="text-3xl font-black text-white mb-2 leading-tight group-hover:text-yellow-400 transition-colors line-clamp-2 text-shadow-lg">
               {tournament.name}
             </h3>
             
-            <div className="flex flex-col gap-1 text-gray-200 text-[10px] font-medium mb-4">
+            <div className="flex flex-col gap-1 text-white text-sm font-bold mb-4 p-2 rounded-lg backdrop-blur-sm bg-black/30">
               <div className="flex items-center gap-2">
-                <MapPin size={11} className="text-yellow-400" /> {tournament.location}
+                <MapPin size={14} className="text-yellow-400" /> <span className="text-shadow-md">{tournament.location}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock size={11} className="text-yellow-400" /> {tournament.time}
+                <Clock size={14} className="text-yellow-400" /> <span className="text-shadow-md">{tournament.time}</span>
               </div>
             </div>
             
