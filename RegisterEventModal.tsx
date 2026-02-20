@@ -28,6 +28,7 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
 
   const [formData, setFormData] = useState({
     name: '',
+    description: '',
     types: [] as string[],
     date: '',
     time: '',
@@ -118,6 +119,7 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
         .from('events')
         .insert([{
           name: formData.name,
+          description: formData.description,
           types: formData.types,
           date: formData.date,
           time: formData.time,
@@ -141,6 +143,7 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
         onClose();
         setFormData({
           name: '',
+          description: '',
           types: [],
           date: '',
           time: '',
@@ -237,6 +240,10 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">Nome do Evento</label>
                     <input required type="text" placeholder="Ex: Aberto de Brasília 2026" className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 text-blue-900 focus:ring-2 focus:ring-yellow-400 outline-none font-medium" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
+                  </div>
+                  <div className="space-y-2 col-span-full">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">Descrição do Evento</label>
+                    <textarea required placeholder="Detalhes do torneio, formato, regras especiais, etc." rows={4} className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 text-blue-900 focus:ring-2 focus:ring-yellow-400 outline-none font-medium resize-y" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} />
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">Tipo (Selecione um ou mais)</label>
