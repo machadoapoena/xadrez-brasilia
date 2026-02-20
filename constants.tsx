@@ -155,7 +155,8 @@ export const TOURNAMENTS: Tournament[] = ([
     prize: "Troféus e Medalhas", 
     image: "https://imagens.xadrezbrasilia.com/imagens/tr_fbxj.JPG",
     contact: "556181484131",
-    chessResultsLink: "https://s2.chess-results.com/tnr1357271.aspx?lan=10&SNode=S0"
+    chessResultsLink: "https://s2.chess-results.com/tnr1357271.aspx?lan=10&SNode=S0",
+    link: "https://fbx.org.br/torneios/festival-brasiliense-da-juventude-de-xadrez-std-2026/"
   }
 ] as Tournament[]).sort((a, b) => {
   const dateA = new Date(a.year, a.monthIndex, a.day).getTime();
