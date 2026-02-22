@@ -147,7 +147,7 @@ export const TOURNAMENTS: Tournament[] = ([
   },
   { 
     id: 8, 
-    name: "Festival Brasiliense da Juventudee", 
+    name: "Festival Brasiliense da Juventude", 
     ...createEventDate("21/02/2026"),
     time: "09:30", 
     location: "Clube ASSEFE - (Brasília, DF)", 
@@ -157,6 +157,19 @@ export const TOURNAMENTS: Tournament[] = ([
     contact: "556181484131",
     chessResultsLink: "https://s2.chess-results.com/tnr1357271.aspx?lan=10&SNode=S0",
     link: "https://fbx.org.br/torneios/festival-brasiliense-da-juventude-de-xadrez-std-2026/"
+  },
+  { 
+    id: 9, 
+    name: "FIX 2026 - Etapa Peão", 
+    ...createEventDate("18/04/2026"),
+    time: "13:30", 
+    location: "Colégio Leonardo Da Vinci - (Taguatinga, DF)", 
+    type: ["Rápido"], 
+    prize: "Troféus", 
+    image: "https://imagens.xadrezbrasilia.com/imagens/tr_fix2026_peao.jpeg",
+    contact: "556191331214",
+    link: "https://mearas.com.br/festival-interescolar-de-xadrez/",
+    registrationLink: "https://mearas.com.br/festival-interescolar-de-xadrez/"
   }
 ] as Tournament[]).sort((a, b) => {
   const dateA = new Date(a.year, a.monthIndex, a.day).getTime();

@@ -40,6 +40,8 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
     link_details: '',
     link_registration: '',
     link_chessresults: '',
+    rtg_fide: false,
+    rtd_cbx: false,
     status: 'enviado'
   });
 
@@ -131,6 +133,8 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
           link_details: formData.link_details,
           link_registration: formData.link_registration,
           link_chessresults: formData.link_chessresults,
+          rtg_fide: formData.rtg_fide,
+          rtd_cbx: formData.rtd_cbx,
           image_url: imageUrl,
           status: 'enviado'
         }]);
@@ -155,6 +159,8 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
           link_details: '',
           link_registration: '',
           link_chessresults: '',
+          rtg_fide: false,
+          rtd_cbx: false,
           status: 'enviado'
         });
         setSelectedFile(null);
@@ -290,6 +296,16 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">Premiação</label>
                     <input required type="text" placeholder="Ex: R$ 1.000,00" className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none font-medium" value={formData.prize} onChange={e => setFormData({...formData, prize: e.target.value})} />
+                  </div>
+                  <div className="grid grid-cols-2 gap-6 col-span-full">
+                    <div className="flex items-center gap-3">
+                      <input type="checkbox" id="rtg_fide" className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" checked={formData.rtg_fide} onChange={e => setFormData({...formData, rtg_fide: e.target.checked})} />
+                      <label htmlFor="rtg_fide" className="text-sm font-medium text-gray-700">Rating FIDE</label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <input type="checkbox" id="rtd_cbx" className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" checked={formData.rtd_cbx} onChange={e => setFormData({...formData, rtd_cbx: e.target.checked})} />
+                      <label htmlFor="rtd_cbx" className="text-sm font-medium text-gray-700">Rating CBX</label>
+                    </div>
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">WhatsApp de Contato (DDI + DDD)</label>
