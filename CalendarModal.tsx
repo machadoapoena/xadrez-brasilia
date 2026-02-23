@@ -85,6 +85,7 @@ export const CalendarModal = ({
             <CalendarDays className="text-green-600" size={28} />
             <h3 className="text-2xl font-brand text-blue-900">Agenda Completa</h3>
           </div>
+
           <button onClick={onClose} className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-red-500 hover:text-white transition-all">
             <X size={24} />
           </button>

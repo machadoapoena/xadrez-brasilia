@@ -170,6 +170,19 @@ export const TOURNAMENTS: Tournament[] = ([
     contact: "556191331214",
     link: "https://mearas.com.br/festival-interescolar-de-xadrez/",
     registrationLink: "https://mearas.com.br/festival-interescolar-de-xadrez/"
+  },
+  { 
+    id: 10, 
+    name: "FENAC & FENAJ", 
+    ...createEventDate("11/06/2026"),
+    time: "17:00", 
+    location: "Hotel Canasvieiras IN - (Florianópolis, SC)", 
+    type: ["Rápido" , "Blitz", "Pesado"], 
+    prize: "Troféus e Medalhas", 
+    image: "https://imagens.xadrezbrasilia.com/imagens/tr_fenacfenaj.jpg",
+    contact: "5548988399799",
+    link: "https://brazilchessseries.com/wp-content/uploads/2026/02/FENAC_IMPAR_2026.pdf",
+    registrationLink: "https://docs.google.com/forms/d/e/1FAIpQLSee84A0HTpCdNfmE2JZuSW1UlOXgDac00pmo006RnsipxNb5w/viewform"
   }
 ] as Tournament[]).sort((a, b) => {
   const dateA = new Date(a.year, a.monthIndex, a.day).getTime();
