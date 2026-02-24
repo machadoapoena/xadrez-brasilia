@@ -79,7 +79,7 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
       const { error: uploadError, data } = await supabase.storage
         .from('xadrez-brasilia')
         .upload(filePath, file, {
-          cacheControl: '3600',
+          cacheControl: '31536000',
           upsert: false
         });
 
