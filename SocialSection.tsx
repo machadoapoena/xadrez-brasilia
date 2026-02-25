@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Instagram, Youtube, ChevronRight } from 'lucide-react';
+import { Instagram, Youtube, ChevronRight, Download } from 'lucide-react';
 
 export const SocialSection = () => {
   return (
@@ -10,7 +10,7 @@ export const SocialSection = () => {
           <h2 className="text-4xl font-brand text-blue-900 mb-4 tracking-tight">Comunidade Xadrez Brasília</h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">Acompanhe bastidores e resultados através dos nossos canais oficiais.</p>
         </header>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           <a 
             href="https://www.instagram.com/xadrezbrasiliaeventos/" 
             target="_blank" 
@@ -43,6 +43,23 @@ export const SocialSection = () => {
               <p className="opacity-80 font-medium">Transmissões ao vivo e tutoriais.</p>
               <div className="mt-6 font-black flex items-center gap-3 bg-white/20 px-4 py-2 rounded-full w-fit">
                 Canal Xadrez Brasília <ChevronRight size={18} />
+              </div>
+            </div>
+          </a>
+          <a 
+            href="#" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="group flex items-center gap-8 p-10 rounded-[40px] bg-gradient-to-br from-blue-900 to-indigo-700 text-white shadow-2xl hover:scale-[1.03] transition-all duration-500"
+          >
+            <div className="w-20 h-20 bg-white/10 backdrop-blur-xl rounded-3xl flex items-center justify-center shadow-inner group-hover:rotate-6 transition-transform">
+              <Download size={48} className="text-white" />
+            </div>
+            <div>
+              <h3 className="text-3xl font-black mb-2">App Android</h3>
+              <p className="opacity-80 font-medium">Baixe nosso aplicativo para Android.</p>
+              <div className="mt-6 font-black flex items-center gap-3 bg-white/20 px-4 py-2 rounded-full w-fit">
+                Download APK <ChevronRight size={18} />
               </div>
             </div>
           </a>
