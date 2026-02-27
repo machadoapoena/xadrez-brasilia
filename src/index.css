@@ -1,21 +1,5 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-}
-
 body {
-    font-family: 'Inter', sans-serif;
     scroll-behavior: smooth;
-}
-.font-brand {
-    font-family: 'Montserrat', sans-serif;
-}
-.font-signature {
-    font-family: 'Ms Madi', cursive;
-}
-.font-arial-black {
-    font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
-    font-weight: 900;
 }
