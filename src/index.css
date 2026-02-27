@@ -1,24 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Montserrat:wght@800&family=Ms+Madi&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-  body {
+body {
     font-family: 'Inter', sans-serif;
-  }
-  .font-brand {
+    scroll-behavior: smooth;
+}
+.font-brand {
     font-family: 'Montserrat', sans-serif;
-  }
-  .font-signature {
+}
+.font-signature {
     font-family: 'Ms Madi', cursive;
-  }
-  .font-arial-black {
+}
+.font-arial-black {
     font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
     font-weight: 900;
-  }
 }
