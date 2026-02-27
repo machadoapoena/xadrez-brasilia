@@ -32,7 +32,7 @@ export interface Partner {
   image: string;
   contact: string;
   instagram?: string;
-}
+} 
 
 export const PARTNERS: Partner[] = [
   {
