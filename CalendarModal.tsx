@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { CalendarDays, X } from 'lucide-react';
-import { TODAY_YEAR, TODAY_MONTH, TODAY_DAY, MONTH_NAMES_FULL, TOURNAMENTS } from './src/constants.tsx';
+import { TODAY_YEAR, TODAY_MONTH, TODAY_DAY, MONTH_NAMES_FULL, TOURNAMENTS } from './constants.tsx';
 import { getDaysInMonth, getFirstDayOfMonth } from './utils.tsx';
 
 const MonthlyCalendar = ({ 

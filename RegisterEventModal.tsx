@@ -1,9 +1,12 @@
 
 import React, { useState, useRef } from 'react';
 import { X, PlusCircle, Send, CheckCircle, AlertCircle, UploadCloud } from 'lucide-react';
-import { supabase } from './src/services/supabaseClient';
+import { createClient } from '@supabase/supabase-js';
 
-
+// Configuração do Supabase - Verifique se estes dados estão corretos no seu painel
+const SUPABASE_URL = 'https://uczqrewiacyziyoufvmw.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_88wwasyo-5gVcEXAI-SnlA_lqJeLi1i';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 interface RegisterEventModalProps {
   isOpen: boolean;
