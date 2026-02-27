@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Montserrat:wght@800&family=Ms+Madi&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+  .font-brand {
+    font-family: 'Montserrat', sans-serif;
+  }
+  .font-signature {
+    font-family: 'Ms Madi', cursive;
+  }
+  .font-arial-black {
+    font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
+    font-weight: 900;
+  }
+}
