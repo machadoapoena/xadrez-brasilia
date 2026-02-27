@@ -1,7 +1,7 @@
 
 import React, { useMemo } from 'react';
 import { CalendarDays } from 'lucide-react';
-import { TODAY_YEAR, TODAY_MONTH, TODAY_DAY, MONTH_NAMES_SHORT, TOURNAMENTS } from './src/constants.tsx';
+import { TODAY_YEAR, TODAY_MONTH, TODAY_DAY, MONTH_NAMES_SHORT, TOURNAMENTS } from './constants.tsx';
 import { getDaysInMonth } from './utils.tsx';
 
 interface TimelineProps {

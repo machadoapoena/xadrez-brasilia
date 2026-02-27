@@ -1,8 +1,8 @@
 
 import React, { useState, useMemo } from 'react';
 import { createRoot } from 'react-dom/client';
-import {
-  Calendar,
+import { 
+  Calendar, 
   Info,
   ChevronDown,
   Instagram,
@@ -14,15 +14,17 @@ import {
   Trophy,
   MapPin,
   CalendarDays,
-  PlusCircle,
-  AlertCircle
+  PlusCircle
 } from 'lucide-react';
 
-
-
-import { supabase } from './src/services/supabaseClient';
-import { Event } from './src/services/eventService';
-import { MONTH_NAMES_FULL, LOGO_URL, TODAY_YEAR, TODAY_MONTH, TODAY_DAY } from './src/constants.tsx';
+import {
+  TODAY_DAY,
+  TODAY_MONTH,
+  TODAY_YEAR,
+  MONTH_NAMES_FULL,
+  LOGO_URL,
+  TOURNAMENTS
+} from './constants.tsx';
 
 import { TournamentCard } from './TournamentCard.tsx';
 import { Timeline } from './Timeline.tsx';
@@ -33,12 +35,28 @@ import { ContactForm } from './ContactForm.tsx';
 import { RegisterEventModal } from './RegisterEventModal.tsx';
 
 const App = () => {
+  // Encontra o índice do primeiro torneio que acontece hoje ou no futuro
+  const initialIndex = useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayMs = today.getTime();
 
+    const index = TOURNAMENTS.findIndex(t => {
+      const eventDate = new Date(t.year, t.monthIndex, t.day);
+      eventDate.setHours(0, 0, 0, 0);
+      return eventDate.getTime() >= todayMs;
+    });
 
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+    // Se não encontrar nenhum futuro, começa do 0 ou do início do último bloco de 3
+    if (index === -1) return Math.max(0, TOURNAMENTS.length - 3);
+    
+    // Ajusta o índice para ser um múltiplo de 3 para manter a paginação limpa, 
+    // ou simplesmente inicia no index exato do próximo evento.
+    // Iniciaremos no index exato para garantir que o PRÓXIMO seja o primeiro card.
+    return index;
+  }, []);
+
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [selectedMonthIndex, setSelectedMonthIndex] = useState<number | null>(null);
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
@@ -46,79 +64,34 @@ const App = () => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Fetch events from Supabase
-  React.useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('events')
-          .select('*')
-          .order('date', { ascending: true });
+  const filteredTournaments = useMemo(() => {
+    if (selectedDay === null) return TOURNAMENTS;
+    return TOURNAMENTS.filter(t => t.day === selectedDay && (selectedMonthIndex === null || t.monthIndex === selectedMonthIndex));
+  }, [selectedDay, selectedMonthIndex]);
 
-        if (error) {
-          throw error;
-        }
-
-        setEvents(data as Event[]);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
-  }, []);
-
-  const initialIndex = useMemo(() => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const todayMs = today.getTime();
-
-    const index = events.findIndex(event => {
-      const [year, month, day] = event.date.split('-').map(Number);
-      const eventDate = new Date(year, month - 1, day);
-      eventDate.setHours(0, 0, 0, 0);
-      return eventDate.getTime() >= todayMs;
-    });
-
-    if (index === -1) return Math.max(0, events.length - 3);
-    return index;
-  }, [events]);
-
-  React.useEffect(() => {
-    setCurrentIndex(initialIndex);
-  }, [initialIndex]);
-
-  const filteredEvents = useMemo(() => {
-    if (selectedDay === null) return events;
-    return events.filter(event => {
-      const [year, month, day] = event.date.split('-').map(Number);
-      return day === selectedDay && (selectedMonthIndex === null || month - 1 === selectedMonthIndex);
-    });
-  }, [selectedDay, selectedMonthIndex, events]);
-
-  const displayedEvents = useMemo(() => {
-    if (selectedDay !== null) return filteredEvents;
-    return events.slice(currentIndex, currentIndex + 3);
-  }, [currentIndex, selectedDay, filteredEvents, events]);
+  const displayedTournaments = useMemo(() => {
+    if (selectedDay !== null) return filteredTournaments;
+    return TOURNAMENTS.slice(currentIndex, currentIndex + 3);
+  }, [currentIndex, selectedDay, filteredTournaments]);
 
   const canGoBack = currentIndex > 0;
-  const canGoForward = selectedDay === null && (currentIndex + 3) < events.length;
+  const canGoForward = selectedDay === null && (currentIndex + 3) < TOURNAMENTS.length;
 
   const nextMatches = () => {
     if (canGoForward) {
-      setCurrentIndex(prev => Math.min(prev + 3, events.length - 1));
+      // Avança de 3 em 3 para navegar por páginas de cards
+      setCurrentIndex(prev => Math.min(prev + 3, TOURNAMENTS.length - 1));
     }
   };
 
   const prevMatches = () => {
     if (canGoBack) {
+      // Recua de 3 em 3
       setCurrentIndex(prev => Math.max(0, prev - 3));
     }
   };
 
-  const handleDayClick = (day: number, monthIndex: number | null = null) => {
+  const handleDayClick = (day: number, monthIndex: number = TODAY_MONTH) => {
     setSelectedDay(day);
     setSelectedMonthIndex(monthIndex);
     setIsCalendarModalOpen(false);
@@ -215,7 +188,7 @@ const App = () => {
             {selectedDay !== null ? (
               <div className="mb-8 flex flex-col items-center gap-3">
                 <span className="bg-yellow-400 text-blue-900 px-5 py-2 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 border border-yellow-400/30">
-                  <Calendar size={14} /> Filtro Ativo: {selectedDay} de {selectedMonthIndex !== null ? MONTH_NAMES_FULL[selectedMonthIndex] : ''}
+                  <Calendar size={14} /> Filtro Ativo: {selectedDay} de {MONTH_NAMES_FULL[selectedMonthIndex ?? TODAY_MONTH]}
                 </span>
                 <button 
                   onClick={clearFilter}
@@ -232,7 +205,7 @@ const App = () => {
             
             <h1 className="text-4xl md:text-7xl font-brand text-blue-900 mb-6 leading-[1.1] tracking-tighter">
               {selectedDay !== null 
-                ? `Eventos de ${selectedDay} de ${selectedMonthIndex !== null ? MONTH_NAMES_FULL[selectedMonthIndex] : ''}`
+                ? `Eventos de ${selectedDay} de ${MONTH_NAMES_FULL[selectedMonthIndex ?? TODAY_MONTH]}`
                 : <>Dê um <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-yellow-500">Checkmate</span> <br />no seu próximo desafio.</>
               }
             </h1>
@@ -251,29 +224,13 @@ const App = () => {
           </header>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-stretch w-full min-h-[400px]">
-            {loading ? (
-              <div className="col-span-full text-center py-24 flex flex-col items-center gap-6 animate-fade-in">
-                <div className="w-24 h-24 bg-gray-100 rounded-[32px] flex items-center justify-center text-gray-300">
-                  <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-900 rounded-full animate-spin"></div>
-                </div>
-                <h3 className="text-2xl font-brand text-gray-400 uppercase tracking-tighter">Carregando Eventos...</h3>
-              </div>
-            ) : error ? (
-              <div className="col-span-full text-center py-24 flex flex-col items-center gap-6 animate-fade-in">
-                <div className="w-24 h-24 bg-red-100 rounded-[32px] flex items-center justify-center text-red-500">
-                  <AlertCircle size={48} />
-                </div>
-                <h3 className="text-2xl font-brand text-red-500 uppercase tracking-tighter">Erro ao Carregar Eventos</h3>
-                <p className="text-red-400 font-medium">{error}</p>
-                <button onClick={() => window.location.reload()} className="bg-blue-900 text-white px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl hover:bg-green-600 transition-all">Tentar Novamente</button>
-              </div>
-            ) : displayedEvents.length > 0 ? (
-              displayedEvents.map((event, idx) => (
-                <div key={`${event.id}-${idx}`} className="flex justify-center animate-fade-in" style={{animationDelay: `${idx * 150}ms`}}>
-                  <TournamentCard event={event} />
+            {displayedTournaments.length > 0 ? (
+              displayedTournaments.map((t, idx) => (
+                <div key={`${t.id}-${idx}`} className="flex justify-center animate-fade-in" style={{animationDelay: `${idx * 150}ms`}}>
+                  <TournamentCard tournament={t} />
                 </div>
               ))
-            ) : ( 
+            ) : (
               <div className="col-span-full text-center py-24 flex flex-col items-center gap-6 animate-fade-in">
                 <div className="w-24 h-24 bg-gray-100 rounded-[32px] flex items-center justify-center text-gray-300">
                   <Calendar size={48} />
@@ -287,7 +244,7 @@ const App = () => {
             )}
           </div>
 
-          {selectedDay === null && events.length > 3 && (
+          {selectedDay === null && TOURNAMENTS.length > 3 && (
             <div className="mt-16 flex items-center gap-6">
               <button 
                 onClick={prevMatches} 
@@ -298,7 +255,7 @@ const App = () => {
               </button>
               
               <div className="bg-blue-900 text-white px-10 py-4 rounded-[20px] font-black shadow-2xl transition-all flex items-center gap-4 text-xs uppercase tracking-[0.2em]">
-                 {currentIndex + 1} - {Math.min(currentIndex + 3, events.length)} / {events.length}
+                 {currentIndex + 1} - {Math.min(currentIndex + 3, TOURNAMENTS.length)} / {TOURNAMENTS.length}
               </div>
 
               <button 
