@@ -1,5 +1,5 @@
 
-import { TournamentType } from './constants.tsx';
+import { TournamentType } from './types';
 
 export const getBadgeStyles = (type: TournamentType) => {
   switch (type) {
