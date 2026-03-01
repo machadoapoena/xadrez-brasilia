@@ -1,5 +1,5 @@
 
-import { TournamentType } from './types';
+import type { TournamentType } from './types';
 
 export const getBadgeStyles = (type: TournamentType) => {
   switch (type) {
