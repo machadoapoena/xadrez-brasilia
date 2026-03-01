@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Instagram, MessageCircle } from 'lucide-react';
-import type { Partner } from './types';
+import { Partner } from './constants.tsx';
 
 // Explicitly typed as React.FC to ensure that the 'key' prop is recognized by TypeScript when the component is used in a map.
 export const PartnerCard: React.FC<{ partner: Partner }> = ({ partner }) => {

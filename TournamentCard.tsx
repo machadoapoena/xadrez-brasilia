@@ -2,21 +2,19 @@
 import React, { useState, useMemo } from 'react';
 import { Trophy, MapPin, Clock, ExternalLink, RotateCcw, BarChart2, MessageCircle, Timer } from 'lucide-react';
 import QRCode from 'qrcode';
-import type { Event } from './types';
+import { Tournament } from './constants.tsx';
 import { getBadgeStyles } from './utils.tsx';
-import type { TournamentType } from './types';
 
-export const TournamentCard = ({ event }: { event: Event }) => {
+export const TournamentCard = ({ tournament }: { tournament: Tournament }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const hasContact = !!event.contact;
+  const hasContact = !!tournament.contact;
 
   // Cálculo de dias restantes para o evento
   const daysRemaining = useMemo(() => {
-    const [year, month, day] = event.date.split('-').map(Number);
-    const eventDate = new Date(year, month - 1, day);
+    const eventDate = new Date(tournament.year, tournament.monthIndex, tournament.day);
     eventDate.setHours(0, 0, 0, 0);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -25,14 +23,14 @@ export const TournamentCard = ({ event }: { event: Event }) => {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     
     return diffDays;
-  }, [event]);
+  }, [tournament]);
 
   const generateQRCode = async () => {
-    if (!event.link_chessresults || qrCodeDataUrl || isGenerating) return;
+    if (!tournament.chessResultsLink || qrCodeDataUrl || isGenerating) return;
     
     setIsGenerating(true);
     try {
-      const url = await QRCode.toDataURL(event.link_chessresults, {
+      const url = await QRCode.toDataURL(tournament.chessResultsLink, {
         width: 300,
         margin: 2,
         color: {
@@ -64,8 +62,8 @@ export const TournamentCard = ({ event }: { event: Event }) => {
     e.stopPropagation();
     if (!hasContact) return;
     
-    const message = `Olá! Gostaria de tirar uma dúvida sobre o torneio "${event.name}" que vi no portal Xadrez Brasília.`;
-    const url = `https://wa.me/${event.contact}?text=${encodeURIComponent(message)}`;
+    const message = `Olá! Gostaria de tirar uma dúvida sobre o torneio "${tournament.name}" que vi no portal Xadrez Brasília.`;
+    const url = `https://wa.me/${tournament.contact}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
   };
 
@@ -108,8 +106,8 @@ export const TournamentCard = ({ event }: { event: Event }) => {
         {/* Lado da Frente */}
         <div className="absolute inset-0 backface-hidden flex flex-col rounded-[32px] overflow-hidden bg-white border-4 border-yellow-400 isolate force-gpu-clip">
           <img 
-            src={event.image_url} 
-            alt={event.name} 
+            src={tournament.image} 
+            alt={tournament.name} 
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             loading="lazy"
             decoding="async"
@@ -122,41 +120,41 @@ export const TournamentCard = ({ event }: { event: Event }) => {
           {/* Badge de Data */}
           <div className="absolute top-4 left-4 flex flex-col items-center z-20">
             <div className="bg-yellow-400 text-blue-900 px-4 py-2.5 rounded-2xl shadow-lg border border-white/20 flex flex-col items-center justify-center min-w-[70px]">
-              <span className="text-4xl font-black font-brand block leading-none">{new Date(event.date).getDate()}</span>
-              <span className="text-[11px] font-bold uppercase tracking-widest mt-1">{new Date(event.date).toLocaleString('pt-BR', { month: 'short' }).toUpperCase()}</span>
+              <span className="text-4xl font-black font-brand block leading-none">{tournament.day}</span>
+              <span className="text-[11px] font-bold uppercase tracking-widest mt-1">{tournament.month}</span>
             </div>
           </div>
 
           {/* Conteúdo Inferior */}
           <div className="absolute bottom-0 left-0 right-0 p-5 z-20">
             <div className="flex flex-wrap items-center gap-2 mb-3">
-              {event.types.map((t) => (
-                <span key={t} className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-sm ${getBadgeStyles(t as TournamentType)}`}>
+              {tournament.type.map((t) => (
+                <span key={t} className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-sm ${getBadgeStyles(t)}`}>
                   {t}
                 </span>
               ))}
               <span className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-2 py-0.5 rounded-full text-[9px] font-bold flex items-center gap-1">
-                <Trophy size={10} className="text-yellow-400" /> {event.prize}
+                <Trophy size={10} className="text-yellow-400" /> {tournament.prize}
               </span>
             </div>
             
             <h3 className="text-2xl font-black text-white mb-2 leading-tight group-hover:text-yellow-400 transition-colors line-clamp-2 text-shadow-lg">
-              {event.name}
+              {tournament.name}
             </h3>
             
             <div className="flex flex-col gap-1 text-white text-sm font-bold mb-4 p-2 rounded-lg backdrop-blur-sm bg-black/30">
               <div className="flex items-center gap-2">
-                <MapPin size={14} className="text-yellow-400" /> <span className="text-shadow-md">{event.location}</span>
+                <MapPin size={14} className="text-yellow-400" /> <span className="text-shadow-md">{tournament.location}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock size={14} className="text-yellow-400" /> <span className="text-shadow-md">{event.time}</span>
+                <Clock size={14} className="text-yellow-400" /> <span className="text-shadow-md">{tournament.time}</span>
               </div>
             </div>
             
             <div className="flex flex-col gap-2">
-              {event.link_details ? (
+              {tournament.link ? (
                 <a 
-                  href={event.link_details}
+                  href={tournament.link}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={handleButtonClick}
@@ -171,9 +169,9 @@ export const TournamentCard = ({ event }: { event: Event }) => {
               )}
 
               <div className="flex gap-2">
-                {event.link_registration ? (
+                {tournament.registrationLink ? (
                   <a 
-                    href={event.link_registration}
+                    href={tournament.registrationLink}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={handleButtonClick}
@@ -207,7 +205,7 @@ export const TournamentCard = ({ event }: { event: Event }) => {
               <div className="p-3 bg-white rounded-3xl shadow-2xl border-2 border-green-600/30">
                 <img 
                   src={qrCodeDataUrl} 
-                  alt={`QR Code para ${event.name}`} 
+                  alt={`QR Code para ${tournament.name}`} 
                   className="w-24 h-24 object-contain"
                 />
                 <div className="absolute -bottom-2 -right-2 bg-green-600 text-white p-1.5 rounded-full shadow-lg border-2 border-white">
@@ -225,15 +223,15 @@ export const TournamentCard = ({ event }: { event: Event }) => {
             )}
           </div>
           
-          <h3 className="text-xl font-brand text-white mb-2 uppercase tracking-tight">{event.name}</h3>
+          <h3 className="text-xl font-brand text-white mb-2 uppercase tracking-tight">{tournament.name}</h3>
           <p className="text-blue-200 text-[10px] font-bold uppercase tracking-widest mb-8">
             {qrCodeDataUrl ? 'Aponte a câmera para os resultados' : 'Informações Técnicas & Resultados'}
           </p>
 
           <div className="w-full space-y-3">
-            {event.link_chessresults ? (
+            {tournament.chessResultsLink ? (
               <a 
-                href={event.link_chessresults}
+                href={tournament.chessResultsLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={handleButtonClick}

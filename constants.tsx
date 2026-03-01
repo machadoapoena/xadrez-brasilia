@@ -11,7 +11,25 @@ export const MONTH_NAMES_SHORT = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul
 export const MONTH_NAMES_FULL = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
 // --- Types ---
-import type { TournamentType, Event } from './types';
+export type TournamentType = 'Blitz' | 'Rápido' | 'Pensado';
+
+export interface Tournament {
+  id: number;
+  name: string;
+  day: number;
+  month: string;
+  monthIndex: number; 
+  year: number;
+  time: string;
+  location: string;
+  type: TournamentType[];
+  prize: string;
+  image: string;
+  link?: string;
+  registrationLink?: string;
+  chessResultsLink?: string;
+  contact?: string; // Campo opcional para contato via WhatsApp
+}
 
 export interface Partner {
   id: number;
@@ -38,7 +56,7 @@ const createEventDate = (dateStr: string) => {
 export const LOGO_URL = "https://imagens.xadrezbrasilia.com/imagens/logo_xb.png";
 
 // --- Tournament Data ---
-export const TOURNAMENTS: Event[] = ([
+export const TOURNAMENTS: Tournament[] = ([
   { 
     id: 1, 
     name: "Capivárias", 
