@@ -2,7 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import { Trophy, MapPin, Clock, ExternalLink, RotateCcw, BarChart2, MessageCircle, Timer } from 'lucide-react';
 import QRCode from 'qrcode';
-import { Event } from './src/types';
+import { Event } from './types';
 import { getBadgeStyles } from './utils.tsx';
 import { TournamentType } from './constants.tsx';
 
