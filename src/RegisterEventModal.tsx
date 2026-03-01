@@ -1,7 +1,7 @@
 
 import React, { useState, useRef } from 'react';
 import { X, PlusCircle, Send, CheckCircle, AlertCircle, UploadCloud } from 'lucide-react';
-import { supabase } from './src/services/supabaseClient';
+import { supabase } from './services/supabaseClient';
 
 
 

@@ -4,7 +4,7 @@ import { Trophy, MapPin, Clock, ExternalLink, RotateCcw, BarChart2, MessageCircl
 import QRCode from 'qrcode';
 import { Event } from './src/types';
 import { getBadgeStyles } from './utils.tsx';
-import { TournamentType } from './src/constants.tsx';
+import { TournamentType } from './constants.tsx';
 
 export const TournamentCard = ({ event }: { event: Event }) => {
   const [isFlipped, setIsFlipped] = useState(false);
