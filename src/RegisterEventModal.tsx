@@ -1,12 +1,9 @@
 
 import React, { useState, useRef } from 'react';
 import { X, PlusCircle, Send, CheckCircle, AlertCircle, UploadCloud } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from './src/services/supabaseClient';
 
-// Configuração do Supabase - Verifique se estes dados estão corretos no seu painel
-const SUPABASE_URL = 'https://uczqrewiacyziyoufvmw.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_88wwasyo-5gVcEXAI-SnlA_lqJeLi1i';
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 
 interface RegisterEventModalProps {
   isOpen: boolean;
@@ -43,8 +40,6 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
     rtg_fide: false,
     rtd_cbx: false,
     rtg_lbx: false,
-    incricao_pix: '',
-    favorecido_pix: '',
     status: 'enviado'
   });
 
@@ -139,8 +134,6 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
           rtg_fide: formData.rtg_fide,
           rtd_cbx: formData.rtd_cbx,
           rtg_lbx: formData.rtg_lbx,
-          incricao_pix: formData.incricao_pix,
-          favorecido_pix: formData.favorecido_pix,
           image_url: imageUrl,
           status: 'enviado'
         }]);
@@ -168,8 +161,6 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
           rtg_fide: false,
           rtd_cbx: false,
           rtg_lbx: false,
-          incricao_pix: '',
-          favorecido_pix: '',
           status: 'enviado'
         });
         setSelectedFile(null);
@@ -323,14 +314,6 @@ export const RegisterEventModal = ({ isOpen, onClose }: RegisterEventModalProps)
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">WhatsApp de Contato (DDI + DDD)</label>
                     <input required type="tel" placeholder="Ex: 5561988887777" className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none font-medium" value={formData.contact} onChange={e => setFormData({...formData, contact: e.target.value})} />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">Chave Pix (Inscrição)</label>
-                    <input type="text" placeholder="Ex: 000.000.000-00 ou email@email.com" className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none font-medium" value={formData.incricao_pix} onChange={e => setFormData({...formData, incricao_pix: e.target.value})} />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-2">Favorecido Pix</label>
-                    <input type="text" placeholder="Ex: Nome Completo ou Razão Social" className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 px-6 outline-none font-medium" value={formData.favorecido_pix} onChange={e => setFormData({...formData, favorecido_pix: e.target.value})} />
                   </div>
                 </div>
               </div>

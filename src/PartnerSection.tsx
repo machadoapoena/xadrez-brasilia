@@ -1,6 +1,7 @@
 
 import React, { useMemo } from 'react';
 import { PARTNERS } from './constants.tsx';
+import { Partner } from './types';
 import { PartnerCard } from './PartnerCard.tsx';
 
 export const PartnerSection = () => {

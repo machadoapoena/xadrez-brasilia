@@ -11,7 +11,35 @@ export const MONTH_NAMES_SHORT = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul
 export const MONTH_NAMES_FULL = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
 // --- Types ---
-import { TournamentType, Tournament, Partner } from './types';
+export type TournamentType = 'Blitz' | 'Rápido' | 'Pensado';
+
+export interface Tournament {
+  id: number;
+  name: string;
+  day: number;
+  month: string;
+  monthIndex: number; 
+  year: number;
+  time: string;
+  location: string;
+  type: TournamentType[];
+  prize: string;
+  image: string;
+  link?: string;
+  registrationLink?: string;
+  chessResultsLink?: string;
+  contact?: string; // Campo opcional para contato via WhatsApp
+}
+
+export interface Partner {
+  id: string;
+  name: string;
+  role: string;
+  contact: string;
+  instagram?: string;
+  image: string;
+  description: string;
+}
 
 // Helper to handle DD/MM/YYYY dates
 const createEventDate = (dateStr: string) => {
@@ -165,7 +193,7 @@ export const TOURNAMENTS: Tournament[] = ([
 // --- Partners Data (Schools & Teachers) ---
 export const PARTNERS: Partner[] = [
   {
-    id: 1,
+    id: "1",
     name: "Mearas",
     role: "Escola de Xadrez",
     contact: "5561981684530",
@@ -174,7 +202,7 @@ export const PARTNERS: Partner[] = [
     description: "Referência no DF, especializada em festivais interescolares e formação de base sólida."
   },
   {
-    id: 2,
+    id: "2",
     name: "Xadrez do Valle",
     role: "Centro de Treinamento",
     contact: "556183046464",
@@ -183,7 +211,7 @@ export const PARTNERS: Partner[] = [
     description: "Cursos presenciais e online focados em performance competitiva e estratégia avançada."
   },
   {
-    id: 3,
+    id: "3",
     name: "Mister Chess",
     role: "Instrutor Online",
     contact: "556182515940",
@@ -192,7 +220,7 @@ export const PARTNERS: Partner[] = [
     description: "Treinamento online focados em performance competitiva e estratégia avançada."
   },
   {
-    id: 4,
+    id: "4",
     name: "CID",
     role: "Escola de Xadrez",
     contact: "556181167386",
@@ -201,7 +229,7 @@ export const PARTNERS: Partner[] = [
     description: "Aulas presenciais no CED 02 de Taguatinga- Centrão. As segundas, quartas e sextas. Gratuito. Horários 7h30, 8h30, 9h30 pela manhã, 14h30, 15h30 e 16h30 à tarde."
   },
   {
-    id: 5,
+    id: "5",
     name: "FM Luigy Lira",
     role: "Instrutor",
     contact: "5561998058689",
@@ -210,7 +238,7 @@ export const PARTNERS: Partner[] = [
     description: "Aulas personalizadas para todas as idades. Do iniciante ao avançado."
   },
   {
-    id: 6,
+    id: "6",
     name: "Alexandre Bernardo",
     role: "Instrutor",
     contact: "5561982093023",
