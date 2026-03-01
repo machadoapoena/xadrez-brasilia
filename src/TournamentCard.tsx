@@ -2,9 +2,9 @@
 import React, { useState, useMemo } from 'react';
 import { Trophy, MapPin, Clock, ExternalLink, RotateCcw, BarChart2, MessageCircle, Timer } from 'lucide-react';
 import QRCode from 'qrcode';
-import { Event } from './types';
+import type { Event } from './types';
 import { getBadgeStyles } from './utils.tsx';
-import { TournamentType } from './types';
+import type { TournamentType } from './types';
 
 export const TournamentCard = ({ event }: { event: Event }) => {
   const [isFlipped, setIsFlipped] = useState(false);

@@ -11,7 +11,17 @@ export const MONTH_NAMES_SHORT = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul
 export const MONTH_NAMES_FULL = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
 // --- Types ---
-import { TournamentType, Tournament, Partner } from './types';
+import type { TournamentType, Event } from './types';
+
+export interface Partner {
+  id: number;
+  name: string;
+  role: string;
+  contact: string;
+  instagram?: string;
+  image: string;
+  description: string;
+}
 
 // Helper to handle DD/MM/YYYY dates
 const createEventDate = (dateStr: string) => {
@@ -28,7 +38,7 @@ const createEventDate = (dateStr: string) => {
 export const LOGO_URL = "https://imagens.xadrezbrasilia.com/imagens/logo_xb.png";
 
 // --- Tournament Data ---
-export const TOURNAMENTS: Tournament[] = ([
+export const TOURNAMENTS: Event[] = ([
   { 
     id: 1, 
     name: "Capivárias", 

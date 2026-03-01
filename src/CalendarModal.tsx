@@ -2,7 +2,7 @@
 import React from 'react';
 import { CalendarDays, X } from 'lucide-react';
 import { TODAY_YEAR, TODAY_MONTH, TODAY_DAY, MONTH_NAMES_FULL, TOURNAMENTS } from './constants.tsx';
-import { Event } from './types';
+import type { Event } from './types';
 import { getDaysInMonth, getFirstDayOfMonth } from './utils.tsx';
 
 const MonthlyCalendar = ({ 
