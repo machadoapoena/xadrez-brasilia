@@ -22,6 +22,7 @@ export const fetchEvents = async (): Promise<Tournament[]> => {
 
     return {
       ...event,
+      time: event.time?.slice(0, 5),
       day: d,
       monthIndex: m,
       year: y,
