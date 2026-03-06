@@ -1,20 +1,22 @@
 
 import React from 'react';
 import { CalendarDays, X } from 'lucide-react';
-import { TODAY_YEAR, TODAY_MONTH, TODAY_DAY, MONTH_NAMES_FULL, TOURNAMENTS } from '../constants.tsx';
-import { Event, CalendarModalProps } from '../types';
+import { TODAY_YEAR, TODAY_MONTH, TODAY_DAY, MONTH_NAMES_FULL } from '../constants.tsx';
+import { Event, CalendarModalProps, Tournament } from '../types';
 import { getDaysInMonth, getFirstDayOfMonth } from '../utils.tsx';
 
 const MonthlyCalendar = ({ 
   year, 
   month, 
   monthName, 
-  onDayClick 
+  onDayClick,
+  tournaments
 }: { 
   year: number; 
   month: number; 
   monthName: string; 
-  onDayClick: (day: number, monthIndex: number) => void 
+  onDayClick: (day: number, monthIndex: number) => void;
+  tournaments: Tournament[];
 }) => {
   const daysInMonth = getDaysInMonth(year, month);
   const firstDay = getFirstDayOfMonth(year, month);
@@ -33,7 +35,7 @@ const MonthlyCalendar = ({
       <div className="grid grid-cols-7 gap-2">
         {emptyDays.map(i => <div key={`empty-${i}`} />)}
         {days.map(day => {
-          const events = TOURNAMENTS.filter(t => t.day === day && t.monthIndex === month);
+          const events = tournaments.filter(t => t.day === day && t.monthIndex === month);
           const hasEvents = events.length > 0;
           const isToday = isCurrentMonth && TODAY_DAY === day;
 
@@ -64,7 +66,8 @@ const MonthlyCalendar = ({
 export const CalendarModal = ({ 
   isOpen, 
   onClose, 
-  onDayClick 
+  onDayClick,
+  tournaments
 }: CalendarModalProps) => {
   if (!isOpen) return null;
 
@@ -88,8 +91,8 @@ export const CalendarModal = ({
         
         <div className="flex-1 overflow-y-auto p-6 md:p-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <MonthlyCalendar year={TODAY_YEAR} month={TODAY_MONTH} monthName={MONTH_NAMES_FULL[TODAY_MONTH]} onDayClick={onDayClick} />
-            <MonthlyCalendar year={nextYear} month={nextMonth} monthName={MONTH_NAMES_FULL[nextMonth]} onDayClick={onDayClick} />
+            <MonthlyCalendar year={TODAY_YEAR} month={TODAY_MONTH} monthName={MONTH_NAMES_FULL[TODAY_MONTH]} onDayClick={onDayClick} tournaments={tournaments} />
+            <MonthlyCalendar year={nextYear} month={nextMonth} monthName={MONTH_NAMES_FULL[nextMonth]} onDayClick={onDayClick} tournaments={tournaments} />
           </div>
           <div className="mt-8 bg-blue-900/5 p-6 rounded-3xl border border-blue-900/10">
             <h5 className="text-sm font-bold text-blue-900 mb-2 uppercase tracking-widest">Legenda:</h5>

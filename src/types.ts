@@ -56,6 +56,7 @@ export interface CalendarModalProps {
   isOpen: boolean;
   onClose: () => void;
   onDayClick: (day: number, monthIndex: number) => void;
+  tournaments: Tournament[];
 }
 
 export interface TimelineProps {
@@ -63,4 +64,5 @@ export interface TimelineProps {
   selectedMonthIndex: number | null;
   onDayClick: (day: number, monthIndex: number) => void;
   onOpenCalendar: () => void;
+  tournaments: Tournament[];
 }

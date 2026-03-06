@@ -1,7 +1,7 @@
 
 import React, { useMemo } from 'react';
 import { CalendarDays } from 'lucide-react';
-import { TODAY_YEAR, TODAY_MONTH, TODAY_DAY, MONTH_NAMES_SHORT, TOURNAMENTS } from '../constants.tsx';
+import { TODAY_YEAR, TODAY_MONTH, TODAY_DAY, MONTH_NAMES_SHORT } from '../constants.tsx';
 import { Tournament, TimelineProps } from '../types';
 import { getDaysInMonth } from '../utils.tsx';
 
@@ -9,7 +9,8 @@ export const Timeline = ({
   selectedDay, 
   selectedMonthIndex,
   onDayClick,
-  onOpenCalendar
+  onOpenCalendar,
+  tournaments
 }: TimelineProps) => {
   // Gera os próximos 13 dias (hoje + 12 dias para frente)
   const timelineDates = useMemo(() => {
@@ -43,7 +44,7 @@ export const Timeline = ({
         <div className="relative pt-4 pb-12 overflow-x-auto hide-scrollbar scroll-smooth">
           <div className="flex gap-4 min-w-max px-8 md:justify-center">
             {timelineDates.map(({ day, month, year }) => {
-              const events = TOURNAMENTS.filter(t => t.day === day && t.monthIndex === month && t.year === year);
+              const events = tournaments.filter(t => t.day === day && t.monthIndex === month && t.year === year);
               const isToday = day === TODAY_DAY && month === TODAY_MONTH && year === TODAY_YEAR;
               const hasEvents = events.length > 0;
               const isSelected = selectedDay === day && selectedMonthIndex === month;

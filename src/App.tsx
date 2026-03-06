@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Calendar, 
   Info,
@@ -11,7 +11,8 @@ import {
   ChevronLeft,
   Trophy,
   MapPin,
-  CalendarDays
+  CalendarDays,
+  Loader2
 } from 'lucide-react';
 
 import {
@@ -19,8 +20,7 @@ import {
   TODAY_MONTH,
   TODAY_YEAR,
   MONTH_NAMES_FULL,
-  LOGO_URL,
-  TOURNAMENTS
+  LOGO_URL
 } from './constants.tsx';
 
 import { TournamentCard } from './components/TournamentCard.tsx';
@@ -29,59 +29,68 @@ import { CalendarModal } from './components/CalendarModal.tsx';
 import { SocialSection } from './components/SocialSection.tsx';
 import { PartnerSection } from './components/PartnerSection.tsx';
 import { ContactForm } from './components/ContactForm.tsx';
+import { fetchEvents } from './services/eventService';
+import { Tournament } from './types';
 
 const App = () => {
-  // Encontra o índice do primeiro torneio que acontece hoje ou no futuro
-  const initialIndex = useMemo(() => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const todayMs = today.getTime();
-
-    const index = TOURNAMENTS.findIndex(t => {
-      const eventDate = new Date(t.year, t.monthIndex, t.day);
-      eventDate.setHours(0, 0, 0, 0);
-      return eventDate.getTime() >= todayMs;
-    });
-
-    // Se não encontrar nenhum futuro, começa do 0 ou do início do último bloco de 3
-    if (index === -1) return Math.max(0, TOURNAMENTS.length - 3);
-    
-    // Ajusta o índice para ser um múltiplo de 3 para manter a paginação limpa, 
-    // ou simplesmente inicia no index exato do próximo evento.
-    // Iniciaremos no index exato para garantir que o PRÓXIMO seja o primeiro card.
-    return index;
-  }, []);
-
-  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [tournaments, setTournaments] = useState<Tournament[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [selectedMonthIndex, setSelectedMonthIndex] = useState<number | null>(null);
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
   const [isGoogleCalendarModalOpen, setIsGoogleCalendarModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  useEffect(() => {
+    const loadEvents = async () => {
+      setLoading(true);
+      const data = await fetchEvents();
+      setTournaments(data);
+      
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const todayMs = today.getTime();
+
+      const index = data.findIndex(t => {
+        const eventDate = new Date(t.year, t.monthIndex, t.day);
+        eventDate.setHours(0, 0, 0, 0);
+        return eventDate.getTime() >= todayMs;
+      });
+
+      if (index !== -1) {
+        setCurrentIndex(index);
+      } else if (data.length > 0) {
+        setCurrentIndex(Math.max(0, data.length - 3));
+      }
+      
+      setLoading(false);
+    };
+
+    loadEvents();
+  }, []);
+
   const filteredTournaments = useMemo(() => {
-    if (selectedDay === null) return TOURNAMENTS;
-    return TOURNAMENTS.filter(t => t.day === selectedDay && (selectedMonthIndex === null || t.monthIndex === selectedMonthIndex));
-  }, [selectedDay, selectedMonthIndex]);
+    if (selectedDay === null) return tournaments;
+    return tournaments.filter(t => t.day === selectedDay && (selectedMonthIndex === null || t.monthIndex === selectedMonthIndex));
+  }, [selectedDay, selectedMonthIndex, tournaments]);
 
   const displayedTournaments = useMemo(() => {
     if (selectedDay !== null) return filteredTournaments;
-    return TOURNAMENTS.slice(currentIndex, currentIndex + 3);
-  }, [currentIndex, selectedDay, filteredTournaments]);
+    return tournaments.slice(currentIndex, currentIndex + 3);
+  }, [currentIndex, selectedDay, filteredTournaments, tournaments]);
 
   const canGoBack = currentIndex > 0;
-  const canGoForward = selectedDay === null && (currentIndex + 3) < TOURNAMENTS.length;
+  const canGoForward = selectedDay === null && (currentIndex + 3) < tournaments.length;
 
   const nextMatches = () => {
     if (canGoForward) {
-      // Avança de 3 em 3 para navegar por páginas de cards
-      setCurrentIndex(prev => Math.min(prev + 3, TOURNAMENTS.length - 1));
+      setCurrentIndex(prev => Math.min(prev + 3, tournaments.length - 1));
     }
   };
 
   const prevMatches = () => {
     if (canGoBack) {
-      // Recua de 3 em 3
       setCurrentIndex(prev => Math.max(0, prev - 3));
     }
   };
@@ -99,7 +108,16 @@ const App = () => {
   const clearFilter = () => {
     setSelectedDay(null);
     setSelectedMonthIndex(null);
-    setCurrentIndex(initialIndex);
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayMs = today.getTime();
+    const index = tournaments.findIndex(t => {
+      const eventDate = new Date(t.year, t.monthIndex, t.day);
+      eventDate.setHours(0, 0, 0, 0);
+      return eventDate.getTime() >= todayMs;
+    });
+    setCurrentIndex(index !== -1 ? index : 0);
   };
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -205,7 +223,12 @@ const App = () => {
           </header>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-stretch w-full min-h-[400px]">
-            {displayedTournaments.length > 0 ? (
+            {loading ? (
+              <div className="col-span-full flex flex-col items-center justify-center py-24 gap-4">
+                <Loader2 size={48} className="text-green-600 animate-spin" />
+                <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Carregando Torneios...</p>
+              </div>
+            ) : displayedTournaments.length > 0 ? (
               displayedTournaments.map((t, idx) => (
                 <div key={`${t.id}-${idx}`} className="flex justify-center animate-fade-in" style={{animationDelay: `${idx * 150}ms`}}>
                   <TournamentCard event={t as any} />
@@ -225,7 +248,7 @@ const App = () => {
             )}
           </div>
 
-          {selectedDay === null && TOURNAMENTS.length > 3 && (
+          {selectedDay === null && tournaments.length > 3 && (
             <div className="mt-16 flex items-center gap-6">
               <button 
                 onClick={prevMatches} 
@@ -236,7 +259,7 @@ const App = () => {
               </button>
               
               <div className="bg-blue-900 text-white px-10 py-4 rounded-[20px] font-black shadow-2xl transition-all flex items-center gap-4 text-xs uppercase tracking-[0.2em]">
-                 {currentIndex + 1} - {Math.min(currentIndex + 3, TOURNAMENTS.length)} / {TOURNAMENTS.length}
+                 {currentIndex + 1} - {Math.min(currentIndex + 3, tournaments.length)} / {tournaments.length}
               </div>
 
               <button 
@@ -263,12 +286,14 @@ const App = () => {
         selectedMonthIndex={selectedMonthIndex}
         onDayClick={handleDayClick} 
         onOpenCalendar={() => setIsCalendarModalOpen(true)}
+        tournaments={tournaments}
       />
 
       <CalendarModal 
         isOpen={isCalendarModalOpen} 
         onClose={() => setIsCalendarModalOpen(false)} 
         onDayClick={handleDayClick} 
+        tournaments={tournaments}
       />
 
       {/* Modal do Google Calendar */}
@@ -424,10 +449,10 @@ const App = () => {
           -webkit-backface-visibility: hidden;
         }
       .text-shadow-lg {
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.4);
       }
       .text-shadow-md {
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        text-shadow: 0 1px 5px rgba(0, 0, 0, 0.8);
       }
       `}</style>
     </div>

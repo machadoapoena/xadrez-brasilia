@@ -107,15 +107,15 @@ export const TournamentCard = ({ event }: { event: Event }) => {
       >
         
         {/* Lado da Frente */}
-        <div className="absolute inset-0 backface-hidden flex flex-col rounded-[32px] overflow-hidden bg-white border-4 border-yellow-400 isolate force-gpu-clip">
+        <div className="absolute inset-0 backface-hidden flex flex-col rounded-[32px] overflow-hidden bg-blue-900 border-4 border-yellow-400 isolate force-gpu-clip">
           <img 
             src={event.image_url} 
             alt={event.name} 
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-50"
             loading="lazy"
             decoding="async"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-blue-900/95 via-blue-900/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/50 to-transparent backdrop-blur-[1px]" />
           
           {/* Badge de Dias Restantes */}
           {renderDaysBadge()}
@@ -149,7 +149,7 @@ export const TournamentCard = ({ event }: { event: Event }) => {
               {event.name}
             </h3>
             
-            <div className="flex flex-col gap-1 text-white text-sm font-bold mb-4 p-2 rounded-lg backdrop-blur-sm bg-black/30">
+            <div className="flex flex-col gap-1 text-white text-sm font-bold mb-4 p-2 rounded-lg backdrop-blur-md bg-black/50">
               <div className="flex items-center gap-2">
                 <MapPin size={14} className="text-yellow-400" /> <span className="text-shadow-md">{event.location}</span>
               </div>
