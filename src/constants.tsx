@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { TournamentType, Tournament, Partner } from './types';
 
 // --- Date Utils ---
 export const NOW = new Date();
@@ -10,45 +11,16 @@ export const TODAY_YEAR = NOW.getFullYear();
 export const MONTH_NAMES_SHORT = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 export const MONTH_NAMES_FULL = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
-// --- Types ---
-export type TournamentType = 'Blitz' | 'Rápido' | 'Pensado';
-
-export interface Tournament {
-  id: number;
-  name: string;
-  day: number;
-  month: string;
-  monthIndex: number; 
-  year: number;
-  time: string;
-  location: string;
-  type: TournamentType[];
-  prize: string;
-  image: string;
-  link?: string;
-  registrationLink?: string;
-  chessResultsLink?: string;
-  contact?: string; // Campo opcional para contato via WhatsApp
-}
-
-export interface Partner {
-  id: number;
-  name: string;
-  role: string;
-  contact: string;
-  instagram?: string;
-  image: string;
-  description: string;
-}
-
 // Helper to handle DD/MM/YYYY dates
 const createEventDate = (dateStr: string) => {
   const [d, m, y] = dateStr.split('/').map(Number);
+  const isoDate = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
   return {
     day: d,
     monthIndex: m - 1,
     year: y,
-    month: MONTH_NAMES_SHORT[m - 1]
+    month: MONTH_NAMES_SHORT[m - 1],
+    date: isoDate
   };
 };
 
@@ -63,10 +35,10 @@ export const TOURNAMENTS: Tournament[] = ([
     ...createEventDate("07/03/2026"),
     time: "09:00", 
     location: "Liberty Mall (Brasília, DF)", 
-    type: ["Rápido"], 
+    types: ["Rápido"], 
     prize: "Troféus e Medalhas", 
-    image: "https://imagens.xadrezbrasilia.com/imagens/tr_capivarias.JPG", 
-    link: "https://mearas.com.br/capivarias/",
+    image_url: "https://imagens.xadrezbrasilia.com/imagens/tr_capivarias.JPG", 
+    link_details: "https://mearas.com.br/capivarias/",
     contact: "5561981684530"
   },
   { 
@@ -75,11 +47,11 @@ export const TOURNAMENTS: Tournament[] = ([
     ...createEventDate("17/02/2026"),
     time: "15:00", 
     location: "Cluber ASCADE (Brasília, DF)", 
-    type: ["Rápido"], 
+    types: ["Rápido"], 
     prize: "Troféus e Medalhas", 
-    image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxcarna.JPG", 
+    image_url: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxcarna.JPG", 
     contact: "5561981222312",
-    chessResultsLink: "https://s2.chess-results.com/tnr1353882.aspx?lan=1"
+    link_chessresults: "https://s2.chess-results.com/tnr1353882.aspx?lan=1"
   },
   { 
     id: 3, 
@@ -87,12 +59,12 @@ export const TOURNAMENTS: Tournament[] = ([
     ...createEventDate("28/02/2026"),
     time: "15:00", 
     location: "Plaza Norte (Brasília, DF)", 
-    type: ["Rápido"], 
+    types: ["Rápido"], 
     prize: "Troféus e Medalhas", 
-    image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxabertoplaza.png", 
-    link: "https://xadrezdf.com.br/?xa=c4ca4238a0b923820dcc509a6f75849b&xs=231141b34c82aa95e48810a9d1b33a79",
-    registrationLink: "https://xadrezdf.com.br/?xa=c4ca4238a0b923820dcc509a6f75849b&xs=231141b34c82aa95e48810a9d1b33a79",
-    chessResultsLink: "https://s2.chess-results.com/tnr1347185.aspx?lan=10",
+    image_url: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxabertoplaza.png", 
+    link_details: "https://xadrezdf.com.br/?xa=c4ca4238a0b923820dcc509a6f75849b&xs=231141b34c82aa95e48810a9d1b33a79",
+    link_registration: "https://xadrezdf.com.br/?xa=c4ca4238a0b923820dcc509a6f75849b&xs=231141b34c82aa95e48810a9d1b33a79",
+    link_chessresults: "https://s2.chess-results.com/tnr1347185.aspx?lan=10",
     contact: "5561981222312"
   },
   { 
@@ -101,10 +73,10 @@ export const TOURNAMENTS: Tournament[] = ([
     ...createEventDate("14/03/2026"),
     time: "15:00", 
     location: "Clube ASTCU (Brasília, DF)", 
-    type: ["Rápido"], 
+    types: ["Rápido"], 
     prize: "R$ 630,00 e Medalhas", 
-    image: "https://imagens.xadrezbrasilia.com/imagens/tr_circfbxrapid.png", 
-    link: "https://gerenciador-circuito-xadrez.vercel.app/",
+    image_url: "https://imagens.xadrezbrasilia.com/imagens/tr_circfbxrapid.png", 
+    link_details: "https://gerenciador-circuito-xadrez.vercel.app/",
     // Sem contato para testar o botão cinza
   },
   { 
@@ -113,12 +85,12 @@ export const TOURNAMENTS: Tournament[] = ([
     ...createEventDate("07/03/2026"),
     time: "15:00", 
     location: "UNB Planaltina (Brasília, DF)", 
-    type: ["Rápido"], 
+    types: ["Rápido"], 
     prize: "Troféus e Medalhas", 
-    image: "https://imagens.xadrezbrasilia.com/imagens/tr_fup.jpg", 
-    link: "https://docs.google.com/forms/d/e/1FAIpQLScW4XFy2V5rTj_KOklL-DViMU1_71KSpupptzruRDT107SOJg/viewform",
-    registrationLink: "https://docs.google.com/forms/d/e/1FAIpQLScW4XFy2V5rTj_KOklL-DViMU1_71KSpupptzruRDT107SOJg/viewform",
-    chessResultsLink: "https://s3.chess-results.com/tnr1336608.aspx?lan=10&turdet=YES&SNode=S0",
+    image_url: "https://imagens.xadrezbrasilia.com/imagens/tr_fup.jpg", 
+    link_details: "https://docs.google.com/forms/d/e/1FAIpQLScW4XFy2V5rTj_KOklL-DViMU1_71KSpupptzruRDT107SOJg/viewform",
+    link_registration: "https://docs.google.com/forms/d/e/1FAIpQLScW4XFy2V5rTj_KOklL-DViMU1_71KSpupptzruRDT107SOJg/viewform",
+    link_chessresults: "https://s3.chess-results.com/tnr1336608.aspx?lan=10&turdet=YES&SNode=S0",
     contact: "5561998058689"
   },
   { 
@@ -127,10 +99,10 @@ export const TOURNAMENTS: Tournament[] = ([
     ...createEventDate("14/02/2026"),
     time: "08:30", 
     location: "Rua CIOPS Lunabel (Novo Gama/GO)", 
-    type: ["Blitz"], 
+    types: ["Blitz"], 
     prize: "Medalhas", 
-    image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxcarnablitz.JPG",
-    chessResultsLink: "https://s2.chess-results.com/tnr1353358.aspx?lan=10&SNode=S0"
+    image_url: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxcarnablitz.JPG",
+    link_chessresults: "https://s2.chess-results.com/tnr1353358.aspx?lan=10&SNode=S0"
     // Sem contato para testar o botão cinza
   },
   { 
@@ -139,10 +111,10 @@ export const TOURNAMENTS: Tournament[] = ([
     ...createEventDate("15/02/2026"),
     time: "14:30", 
     location: "St. Leste Q 22 - (Gama, DF)", 
-    type: ["Rápido"], 
+    types: ["Rápido"], 
     prize: "Rodízio de Pizza", 
-    image: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxdivina.JPG",
-    chessResultsLink: "https://s3.chess-results.com/tnr1353815.aspx?lan=1",
+    image_url: "https://imagens.xadrezbrasilia.com/imagens/tr_lbxdivina.JPG",
+    link_chessresults: "https://s3.chess-results.com/tnr1353815.aspx?lan=1",
     contact: "5561981222312"
   },
   { 
@@ -151,12 +123,12 @@ export const TOURNAMENTS: Tournament[] = ([
     ...createEventDate("21/02/2026"),
     time: "09:30", 
     location: "Clube ASSEFE - (Brasília, DF)", 
-    type: ["Pensado"], 
+    types: ["Pensado"], 
     prize: "Troféus e Medalhas", 
-    image: "https://imagens.xadrezbrasilia.com/imagens/tr_fbxj.JPG",
+    image_url: "https://imagens.xadrezbrasilia.com/imagens/tr_fbxj.JPG",
     contact: "556181484131",
-    chessResultsLink: "https://s2.chess-results.com/tnr1357271.aspx?lan=10&SNode=S0",
-    link: "https://fbx.org.br/torneios/festival-brasiliense-da-juventude-de-xadrez-std-2026/"
+    link_chessresults: "https://s2.chess-results.com/tnr1357271.aspx?lan=10&SNode=S0",
+    link_details: "https://fbx.org.br/torneios/festival-brasiliense-da-juventude-de-xadrez-std-2026/"
   },
   { 
     id: 9, 
@@ -164,12 +136,12 @@ export const TOURNAMENTS: Tournament[] = ([
     ...createEventDate("18/04/2026"),
     time: "13:30", 
     location: "Colégio Leonardo Da Vinci - (Taguatinga, DF)", 
-    type: ["Rápido"], 
+    types: ["Rápido"], 
     prize: "Troféus", 
-    image: "https://imagens.xadrezbrasilia.com/imagens/tr_fix2026_peao.jpeg",
+    image_url: "https://imagens.xadrezbrasilia.com/imagens/tr_fix2026_peao.jpeg",
     contact: "556191331214",
-    link: "https://mearas.com.br/festival-interescolar-de-xadrez/",
-    registrationLink: "https://mearas.com.br/festival-interescolar-de-xadrez/"
+    link_details: "https://mearas.com.br/festival-interescolar-de-xadrez/",
+    link_registration: "https://mearas.com.br/festival-interescolar-de-xadrez/"
   },
   { 
     id: 10, 
@@ -177,12 +149,12 @@ export const TOURNAMENTS: Tournament[] = ([
     ...createEventDate("11/06/2026"),
     time: "17:00", 
     location: "Hotel Canasvieiras IN - (Florianópolis, SC)", 
-    type: ["Rápido" , "Blitz", "Pesado"], 
+    types: ["Rápido" , "Blitz", "Pesado"], 
     prize: "Troféus e Medalhas", 
-    image: "https://imagens.xadrezbrasilia.com/imagens/tr_fenacfenaj.jpg",
+    image_url: "https://imagens.xadrezbrasilia.com/imagens/tr_fenacfenaj.jpg",
     contact: "5548988399799",
-    link: "https://brazilchessseries.com/wp-content/uploads/2026/02/FENAC_IMPAR_2026.pdf",
-    registrationLink: "https://docs.google.com/forms/d/e/1FAIpQLSee84A0HTpCdNfmE2JZuSW1UlOXgDac00pmo006RnsipxNb5w/viewform"
+    link_details: "https://brazilchessseries.com/wp-content/uploads/2026/02/FENAC_IMPAR_2026.pdf",
+    link_registration: "https://docs.google.com/forms/d/e/1FAIpQLSee84A0HTpCdNfmE2JZuSW1UlOXgDac00pmo006RnsipxNb5w/viewform"
   }
 ] as Tournament[]).sort((a, b) => {
   const dateA = new Date(a.year, a.monthIndex, a.day).getTime();
@@ -193,7 +165,7 @@ export const TOURNAMENTS: Tournament[] = ([
 // --- Partners Data (Schools & Teachers) ---
 export const PARTNERS: Partner[] = [
   {
-    id: 1,
+    id: "1",
     name: "Mearas",
     role: "Escola de Xadrez",
     contact: "5561981684530",
@@ -202,7 +174,7 @@ export const PARTNERS: Partner[] = [
     description: "Referência no DF, especializada em festivais interescolares e formação de base sólida."
   },
   {
-    id: 2,
+    id: "2",
     name: "Xadrez do Valle",
     role: "Centro de Treinamento",
     contact: "556183046464",
@@ -211,7 +183,7 @@ export const PARTNERS: Partner[] = [
     description: "Cursos presenciais e online focados em performance competitiva e estratégia avançada."
   },
   {
-    id: 3,
+    id: "3",
     name: "Mister Chess",
     role: "Instrutor Online",
     contact: "556182515940",
@@ -220,7 +192,7 @@ export const PARTNERS: Partner[] = [
     description: "Treinamento online focados em performance competitiva e estratégia avançada."
   },
   {
-    id: 4,
+    id: "4",
     name: "CID",
     role: "Escola de Xadrez",
     contact: "556181167386",
@@ -229,7 +201,7 @@ export const PARTNERS: Partner[] = [
     description: "Aulas presenciais no CED 02 de Taguatinga- Centrão. As segundas, quartas e sextas. Gratuito. Horários 7h30, 8h30, 9h30 pela manhã, 14h30, 15h30 e 16h30 à tarde."
   },
   {
-    id: 5,
+    id: "5",
     name: "FM Luigy Lira",
     role: "Instrutor",
     contact: "5561998058689",
@@ -238,7 +210,7 @@ export const PARTNERS: Partner[] = [
     description: "Aulas personalizadas para todas as idades. Do iniciante ao avançado."
   },
   {
-    id: 6,
+    id: "6",
     name: "Alexandre Bernardo",
     role: "Instrutor",
     contact: "5561982093023",

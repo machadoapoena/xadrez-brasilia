@@ -1,15 +1,9 @@
 
 import React, { useMemo } from 'react';
 import { CalendarDays } from 'lucide-react';
-import { TODAY_YEAR, TODAY_MONTH, TODAY_DAY, MONTH_NAMES_SHORT, TOURNAMENTS } from './constants.tsx';
-import { getDaysInMonth } from './utils.tsx';
-
-interface TimelineProps {
-  selectedDay: number | null;
-  selectedMonthIndex: number | null;
-  onDayClick: (day: number, monthIndex: number) => void;
-  onOpenCalendar: () => void;
-}
+import { TODAY_YEAR, TODAY_MONTH, TODAY_DAY, MONTH_NAMES_SHORT, TOURNAMENTS } from '../constants.tsx';
+import { Tournament, TimelineProps } from '../types';
+import { getDaysInMonth } from '../utils.tsx';
 
 export const Timeline = ({ 
   selectedDay, 

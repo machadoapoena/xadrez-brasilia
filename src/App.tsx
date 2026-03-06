@@ -1,6 +1,4 @@
-
 import React, { useState, useMemo } from 'react';
-import { createRoot } from 'react-dom/client';
 import { 
   Calendar, 
   Info,
@@ -13,8 +11,7 @@ import {
   ChevronLeft,
   Trophy,
   MapPin,
-  CalendarDays,
-  PlusCircle
+  CalendarDays
 } from 'lucide-react';
 
 import {
@@ -26,13 +23,12 @@ import {
   TOURNAMENTS
 } from './constants.tsx';
 
-import { TournamentCard } from './TournamentCard.tsx';
-import { Timeline } from './Timeline.tsx';
-import { CalendarModal } from './CalendarModal.tsx';
-import { SocialSection } from './SocialSection.tsx';
-import { PartnerSection } from './PartnerSection.tsx';
-import { ContactForm } from './ContactForm.tsx';
-import { RegisterEventModal } from './RegisterEventModal.tsx';
+import { TournamentCard } from './components/TournamentCard.tsx';
+import { Timeline } from './components/Timeline.tsx';
+import { CalendarModal } from './components/CalendarModal.tsx';
+import { SocialSection } from './components/SocialSection.tsx';
+import { PartnerSection } from './components/PartnerSection.tsx';
+import { ContactForm } from './components/ContactForm.tsx';
 
 const App = () => {
   // Encontra o índice do primeiro torneio que acontece hoje ou no futuro
@@ -61,7 +57,6 @@ const App = () => {
   const [selectedMonthIndex, setSelectedMonthIndex] = useState<number | null>(null);
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
   const [isGoogleCalendarModalOpen, setIsGoogleCalendarModalOpen] = useState(false);
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const filteredTournaments = useMemo(() => {
@@ -129,13 +124,6 @@ const App = () => {
           <a href="#timeline" className="hover:text-green-600 transition-colors border-b-2 border-transparent hover:border-yellow-400 pb-1">Calendário</a>
           <a href="#social" className="hover:text-green-600 transition-colors border-b-2 border-transparent hover:border-yellow-400 pb-1">Comunidade</a>
           <a href="#contact" className="hover:text-green-600 transition-colors border-b-2 border-transparent hover:border-yellow-400 pb-1">Suporte</a>
-          <button 
-            onClick={() => setIsRegisterModalOpen(true)}
-            className="bg-blue-900 text-white px-5 py-2.5 rounded-xl flex items-center gap-2 hover:bg-green-600 transition-all shadow-md group/btn"
-          >
-            <PlusCircle size={16} className="group-hover/btn:rotate-90 transition-transform" />
-            CADASTRAR
-          </button>
         </div>
 
         {/* Mobile Toggle Button */}
@@ -167,13 +155,6 @@ const App = () => {
           </div>
 
           <div className="mt-auto space-y-4">
-            <button 
-              onClick={() => { closeMobileMenu(); setIsRegisterModalOpen(true); }}
-              className="w-full bg-blue-900 text-white py-5 rounded-2xl flex items-center justify-center gap-3 font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all"
-            >
-              <PlusCircle size={20} />
-              CADASTRAR EVENTO
-            </button>
             <div className="flex justify-center gap-6 py-4">
               <a href="https://www.instagram.com/xadrezbrasiliaeventos/" target="_blank" className="text-gray-400 hover:text-blue-900"><Instagram size={24} /></a>
               <a href="https://www.youtube.com/@XadrezBrasiliaEventos" target="_blank" className="text-gray-400 hover:text-blue-900"><Youtube size={24} /></a>
@@ -203,10 +184,10 @@ const App = () => {
               </div>
             )}
             
-            <h1 className="text-4xl md:text-7xl font-brand text-blue-900 mb-6 leading-[1.1] tracking-tighter">
+            <h1 className="text-4xl md:text-7xl font-brand font-black text-blue-900 mb-6 leading-[1.1] tracking-tighter">
               {selectedDay !== null 
                 ? `Eventos de ${selectedDay} de ${MONTH_NAMES_FULL[selectedMonthIndex ?? TODAY_MONTH]}`
-                : <>Dê um <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-yellow-500">Checkmate</span> <br />no seu próximo desafio.</>
+                : <>Dê um <span className="text-gradient-checkmate">Checkmate</span> <br />no seu próximo desafio.</>
               }
             </h1>
             <p className="text-base md:text-lg text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed mb-8">
@@ -227,7 +208,7 @@ const App = () => {
             {displayedTournaments.length > 0 ? (
               displayedTournaments.map((t, idx) => (
                 <div key={`${t.id}-${idx}`} className="flex justify-center animate-fade-in" style={{animationDelay: `${idx * 150}ms`}}>
-                  <TournamentCard tournament={t} />
+                  <TournamentCard event={t as any} />
                 </div>
               ))
             ) : (
@@ -321,12 +302,6 @@ const App = () => {
           </div>
         </div>
       )}
-
-      {/* Modal de Cadastro de Evento */}
-      <RegisterEventModal 
-        isOpen={isRegisterModalOpen} 
-        onClose={() => setIsRegisterModalOpen(false)} 
-      />
 
       <section className="py-24 bg-white px-6">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-8">
@@ -459,8 +434,4 @@ const App = () => {
   );
 };
 
-const rootElement = document.getElementById('root');
-if (rootElement) {
-  const root = createRoot(rootElement);
-  root.render(<App />);
-}
+export default App;
